@@ -7,6 +7,14 @@ import Header from "@/components/layout/Header";
 import Sider from "@/components/layout/Sider";
 import Content from "@/components/layout/Content";
 
+import {
+  ProjectOutlined,
+  RocketOutlined,
+  SettingOutlined,
+  NodeIndexOutlined,
+  DatabaseOutlined,
+} from "@ant-design/icons";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,6 +32,47 @@ export const metadata: Metadata = {
   description: "KnowMeld: AI-powered knowledge management platform",
 };
 
+const menus = [
+  {
+    key: "item-1",
+    label: "Item 1",
+    icon: <ProjectOutlined />,
+    items: [
+      {
+        key: "item-1-sub-1",
+        label: "Item 1 Sub 1",
+        icon: <RocketOutlined />,
+        routeTo: "/",
+      },
+      {
+        key: "item-1-sub-2",
+        label: "Item 1 Sub 2",
+        icon: <RocketOutlined />,
+        routeTo: "/",
+      },
+    ],
+  },
+  {
+    key: "item-2",
+    label: "Item 2",
+    icon: <SettingOutlined />,
+    items: [
+      {
+        key: "item-2-sub-1",
+        label: "Item 2 Sub 1",
+        icon: <NodeIndexOutlined />,
+        routeTo: "/",
+      },
+      {
+        key: "item-2-sub-2",
+        label: "Item 2 Sub 2",
+        icon: <DatabaseOutlined />,
+        routeTo: "/",
+      },
+    ],
+  }
+];
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,7 +87,7 @@ export default function RootLayout({
           <Layout style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
             <Header style={{ display: "flex", alignItems: "center" }} />
             <Layout style={{ flex: 1, display: "flex", flexDirection: "row", overflow: "hidden" }}>
-              <Sider width={240} style={{ overflow: "auto" }} />
+              <Sider width={240} style={{ overflow: "auto" }} menus={menus} />
               <Layout
                 style={{ display: "flex", flexDirection: "column", flex: 1, overflow: "auto" }}>
                 <Content

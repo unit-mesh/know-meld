@@ -3,13 +3,6 @@
 import Layout, { SiderProps } from "antd/lib/layout";
 import { Menu, theme, Tooltip } from "antd";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  ProjectOutlined,
-  RocketOutlined,
-  SettingOutlined,
-  NodeIndexOutlined,
-  DatabaseOutlined,
-} from "@ant-design/icons";
 import React from "react";
 
 const Sider = Layout.Sider;
@@ -19,57 +12,16 @@ interface MenuItem {
   label: string;
   icon: React.ReactNode;
   items?: MenuItem[];
-  onClick?: () => void;
+  routeTo?: string;
   disabled?: boolean;
 }
 
-export default function AntdSider(props: SiderProps) {
+export default function AntdSider({ menus, ...props }: { menus: MenuItem[] } & SiderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
-  const items: MenuItem[] = [
-    {
-      key: "item-1",
-      label: "Item 1",
-      icon: <ProjectOutlined />,
-      items: [
-        {
-          key: "item-1-sub-1",
-          label: "Item 1 Sub 1",
-          icon: <RocketOutlined />,
-          onClick: () => router.push("/"),
-        },
-        {
-          key: "item-1-sub-2",
-          label: "Item 1 Sub 2",
-          icon: <RocketOutlined />,
-          onClick: () => router.push("/"),
-        },
-      ],
-    },
-    {
-      key: "item-2",
-      label: "Item 2",
-      icon: <SettingOutlined />,
-      items: [
-        {
-          key: "item-2-sub-1",
-          label: "Item 2 Sub 1",
-          icon: <NodeIndexOutlined />,
-          onClick: () => router.push("/"),
-        },
-        {
-          key: "item-2-sub-2",
-          label: "Item 2 Sub 2",
-          icon: <DatabaseOutlined />,
-          onClick: () => router.push("/"),
-        },
-      ],
-    }
-  ];
 
   const renderMenuItem = (item: MenuItem) => {
     if (item?.items) {
@@ -94,7 +46,7 @@ export default function AntdSider(props: SiderProps) {
       );
     }
 
-    return (<Menu.Item key={item.key} onClick={item.onClick} disabled={item.disabled} style={
+    return (<Menu.Item key={item.key} onClick={() => item.routeTo && router.push(item.routeTo)} disabled={item.disabled} style={
       collapsed ? { paddingLeft: "24px" } : {}
     }>
       {collapsed ? (
@@ -130,7 +82,7 @@ export default function AntdSider(props: SiderProps) {
           selectedKeys={[pathname]}
           defaultOpenKeys={["requirement", "knowledge"]}
         >
-          {items.map(renderMenuItem)}
+          {menus.map(renderMenuItem)}
         </Menu>
       </div>
     </Sider>
