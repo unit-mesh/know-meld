@@ -32,6 +32,8 @@ export const metadata: Metadata = {
   description: "KnowMeld: AI-powered knowledge management platform",
 };
 
+const headerTitle = "KnowMeld";
+
 const menus = [
   {
     key: "item-1",
@@ -85,7 +87,7 @@ export default function RootLayout({
       >
         <AntdRegistry>
           <Layout style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
-            <Header style={{ display: "flex", alignItems: "center" }} />
+            <Header style={{ display: "flex", alignItems: "center" }}  headerTitle={headerTitle}/>
             <Layout style={{ flex: 1, display: "flex", flexDirection: "row", overflow: "hidden" }}>
               <Sider width={240} style={{ overflow: "auto" }} menus={menus} />
               <Layout

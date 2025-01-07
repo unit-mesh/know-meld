@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const { Header } = Layout;
 
-export default function AntdHeader(props: LayoutProps) {
+export default function AntdHeader(props: LayoutProps & { headerTitle: string }) {
   return (
     <Header
       {...props}
@@ -18,7 +18,7 @@ export default function AntdHeader(props: LayoutProps) {
     >
       <div className="flex items-center space-x-4">
         <Link href="/" className="text-lg font-semibold text-white hover:text-gray-300 transition-colors">
-          KnowMeld
+          {props.headerTitle}
         </Link>
       </div>
       <div className="flex items-center space-x-4">

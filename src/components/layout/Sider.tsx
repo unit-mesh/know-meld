@@ -16,7 +16,7 @@ interface MenuItem {
   disabled?: boolean;
 }
 
-export default function AntdSider({ menus, ...props }: { menus: MenuItem[] } & SiderProps) {
+export default function AntdSider(props: SiderProps & { menus: MenuItem[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const {
@@ -82,7 +82,7 @@ export default function AntdSider({ menus, ...props }: { menus: MenuItem[] } & S
           selectedKeys={[pathname]}
           defaultOpenKeys={["requirement", "knowledge"]}
         >
-          {menus.map(renderMenuItem)}
+          {props.menus.map(renderMenuItem)}
         </Menu>
       </div>
     </Sider>
