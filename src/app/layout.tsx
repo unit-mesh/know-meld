@@ -36,27 +36,21 @@ const headerTitle = "KnowMeld";
 
 const menus = [
   {
-    key: "item-1",
-    label: "Item 1",
+    key: "workspace",
+    label: "Workspace",
     icon: <ProjectOutlined />,
     items: [
       {
-        key: "item-1-sub-1",
-        label: "Item 1 Sub 1",
+        key: "/workspace/feature/analysis",
+        label: "Feature Analysis",
         icon: <RocketOutlined />,
-        routeTo: "/",
-      },
-      {
-        key: "item-1-sub-2",
-        label: "Item 1 Sub 2",
-        icon: <RocketOutlined />,
-        routeTo: "/",
-      },
+        routeTo: "/workspace/feature/analysis",
+      }
     ],
   },
   {
-    key: "item-2",
-    label: "Item 2",
+    key: "knowledge",
+    label: "Knowledge",
     icon: <SettingOutlined />,
     items: [
       {

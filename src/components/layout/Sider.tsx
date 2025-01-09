@@ -80,7 +80,7 @@ export default function AntdSider(props: SiderProps & { menus: MenuItem[] }) {
         <Menu
           mode="inline"
           selectedKeys={[pathname]}
-          defaultOpenKeys={["requirement", "knowledge"]}
+          defaultOpenKeys={["workspace", "knowledge"]}
         >
           {props.menus.map(renderMenuItem)}
         </Menu>
