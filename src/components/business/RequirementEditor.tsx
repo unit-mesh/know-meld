@@ -8,7 +8,7 @@ import { Editor } from "@tiptap/react";
 import { MarkdownParser } from "@/../node_modules/tiptap-markdown/src/parse/MarkdownParser";
 import saveAs from "file-saver";
 
-import { docxToMarkdown, markdownToDocx } from "@/util/markdown/office/MarkdownDocx";
+import { docxToMarkdown, markdownToDocx } from "@/utils/markdown/office/MarkdownDocx";
 import GenifyEditor from "@/components/editor/GenifyEditor";
 
 const { TextArea } = Input;

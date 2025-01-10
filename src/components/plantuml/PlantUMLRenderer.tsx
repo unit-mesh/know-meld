@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import plantumlEncoder from "plantuml-encoder";
 import { Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
-import { MindMap } from "@/util/markdown/mindmap/MindMap";
+import { MindMap } from "@/utils/markdown/mindmap/MindMap";
 
 interface PlantUMLRendererProps {
   value: string;

@@ -16,7 +16,7 @@ import {
   EdgeChange,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { MindMap } from "@/util/markdown/mindmap/MindMap";
+import { MindMap } from "@/utils/markdown/mindmap/MindMap";
 import { Button } from "antd";
 import { useTranslation } from "react-i18next";
 

@@ -4,7 +4,7 @@ import { parseStringPromise } from "xml2js";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
-import { MindNode } from "@/util/markdown/mindmap/MindNode";
+import { MindNode } from "@/utils/markdown/mindmap/MindNode";
 
 export class MindMap {
   title: string;

@@ -21,7 +21,7 @@ import { useDebounce } from "use-debounce";
 import { Theme } from "@radix-ui/themes";
 import { Markdown } from "tiptap-markdown";
 import { DOMSerializer } from "prosemirror-model";
-import { htmlToMarkdown } from "@/util/markdown/office/MarkdownDocx";
+import { htmlToMarkdown } from "@/utils/markdown/office/MarkdownDocx";
 
 const md = new MarkdownIt({ html: true });
 

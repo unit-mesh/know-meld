@@ -3,7 +3,7 @@ import { Button } from "antd";
 import CodeMirror from "@uiw/react-codemirror";
 import { useTranslation } from "react-i18next";
 
-import { StreamingMarkdownCodeBlock } from "@/util/markdown/streaming/StreamingMarkdownCodeBlock";
+import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/StreamingMarkdownCodeBlock";
 // import { StrategyFormData } from "@/business/TestStrategyForm";
 import { Story } from "@/app/genify.type";
 import { markdown } from "@codemirror/lang-markdown";
