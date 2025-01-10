@@ -6,9 +6,9 @@ import type { UploadFile } from "antd/es/upload/interface";
 
 import { StreamingMarkdownCodeBlock } from "@/util/markdown/streaming/StreamingMarkdownCodeBlock";
 import { yamlToFeatureStories } from "@/util/YamlToObject";
-import { RequirementEditor } from "@/business/home/RequirementEditor";
-import FeatureStoryList from "@/business/home/FeatureStoryList";
-import AcMindmapUML from "@/business/home/AcMindmapUML";
+import { RequirementEditor } from "@/components/business/RequirementEditor";
+import FeatureStoryList from "@/components/business/FeatureStoryList";
+import AcMindmapUML from "@/components/business/AcMindmapUML";
 import { Feature, Story, SystemInfo } from "@/app/genify.type";
 
 type Step = "upload" | "stories" | "navigate";
