@@ -18,7 +18,6 @@ export default function FeatureStory() {
   const [selectedStories, setSelectedStories] = useState<Story[]>([]);
   const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [acMindmap, setAcMindmap] = useState<string>("");
 
   const [requirements, setRequirements] = useState<Feature[]>([]);
   const [genRequirementDone, setGenRequirementDone] = useState<boolean>(false);
@@ -71,7 +70,6 @@ export default function FeatureStory() {
 
   const handleForReturnRequirement = () => {
     setCurrentStep("stories");
-    setAcMindmap("");
     setCurrentTestStep(0);
   };
 
@@ -82,7 +80,6 @@ export default function FeatureStory() {
     setFileList([]);
     setManualDocument("");
     setRequirements([]);
-    setAcMindmap("");
     setCurrentTestStep(0);
   };
 
@@ -222,7 +219,6 @@ export default function FeatureStory() {
               selectedFeature={selectedFeature}
               selectedStories={selectedStories}
               gotoNextStep={(mindmap: string) => {
-                setAcMindmap(mindmap);
                 setCurrentTestStep(currentTestStep + 1);
               }}
             />

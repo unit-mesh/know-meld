@@ -4,7 +4,6 @@ import CodeMirror from "@uiw/react-codemirror";
 import { useTranslation } from "react-i18next";
 
 import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/StreamingMarkdownCodeBlock";
-// import { StrategyFormData } from "@/business/TestStrategyForm";
 import { Story } from "@/app/genify.type";
 import { markdown } from "@codemirror/lang-markdown";
 import MarkdownMindMapRender from "@/components/mindmap/MarkdownMindMapRender";
@@ -15,7 +14,6 @@ export interface MindmapUMLProps {
   selectedFeature: { feature: string } | null,
   selectedStories: Story[],
   gotoNextStep: (mindmap: string) => void,
-  // acStrategyData?: StrategyFormData
   isForFeatureUsecase?: boolean
 }
 
@@ -39,7 +37,6 @@ export default function AcMindmapUML({
 
     let umlContent = "";
 
-    // const bizStrategy = acStrategyData?.testStrategies ?? [];
     const outline = localStorage.getItem("attachment-editor") ?? manualDocument;
 
     const url = isForFeatureUsecase ? "/api/agents/requirement/mind-map-usecase" : "/api/agents/requirement/mind-map";
@@ -51,7 +48,6 @@ export default function AcMindmapUML({
         product: productInfo,
         feature: selectedFeature?.feature,
         story: selectedStories?.map((story) => story.story).join("\n"),
-        // biz_ac_checkpoints: bizStrategy.map((item) => item.strategyItem + ":" + item.checkPoint).join("\n"),
       }),
     });
 
