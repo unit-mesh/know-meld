@@ -10,9 +10,8 @@ import Content from "@/components/layout/Content";
 import {
   ProjectOutlined,
   RocketOutlined,
-  SettingOutlined,
-  NodeIndexOutlined,
   DatabaseOutlined,
+  CommentOutlined,
 } from "@ant-design/icons";
 
 import "./globals.css";
@@ -51,12 +50,12 @@ const menus = [
   {
     key: "knowledge",
     label: "Knowledge",
-    icon: <SettingOutlined />,
+    icon: <DatabaseOutlined />,
     items: [
       {
         key: "item-2-sub-1",
         label: "Item 2 Sub 1",
-        icon: <NodeIndexOutlined />,
+        icon: <DatabaseOutlined />,
         routeTo: "/",
       },
       {
@@ -66,6 +65,12 @@ const menus = [
         routeTo: "/",
       },
     ],
+  },
+  {
+    key: "chat",
+    label: "Ask AI",
+    icon: <CommentOutlined />,
+    routeTo: "/",
   }
 ];
 
