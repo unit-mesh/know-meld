@@ -5,11 +5,11 @@ import { Button, Card, Input } from "antd";
 
 const { TextArea } = Input;
 
-interface RequirementRefineProps {
+interface Props {
     handleFinishAction: (value: string) => void;
 }
 
-export default function RequirementRefine({ handleFinishAction }: RequirementRefineProps) {
+export default function RequirementRefine({ handleFinishAction }: Props) {
     const [localReq, setLocalReq] = useState("");
 
     return (<div className="w-full mx-auto justify-between mt-4">

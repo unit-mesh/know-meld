@@ -3,19 +3,27 @@
 import RequirementRefine from "@/components/business/RequirementRefine";
 import { useState } from "react";
 import { Steps } from 'antd';
+import FeatureStoryGenerate from "@/components/business/FeatureStoryGenerate";
+import { Feature, Story } from "@/app/genify.type";
 
-type Step = "requirementRefine" | "stories" | "navigate";
+type Step = "requirementRefine" | "featureStoryGenerate" | "navigate";
 
 export default function Page() {
     const [currentStep, setCurrentStep] = useState<Step>("requirementRefine");
     const [requirements, setRequirements] = useState("");
+    const [selectedFeatureStories, setSelectedFeatureStories] = useState<Feature>();
 
     const handleRequirementRefineFinish = (requirements: string) => {
-        setCurrentStep("stories");
+        setCurrentStep("featureStoryGenerate");
         setRequirements(requirements);
     }
 
-    const steps = [{ "step": "requirementRefine", "title": "Requirement Refine" }, { "step": "stories", "title": "Stories" }, { "step": "navigate", "title": "Navigate" }];
+    const handleFeatureStoriesSelected = (feature: Feature, stories: Story[]) => {
+        setCurrentStep("navigate");
+        setSelectedFeatureStories({...feature, stories});
+    }
+
+    const steps = [{ "step": "requirementRefine", "title": "Requirement Refine" }, { "step": "featureStoryGenerate", "title": "Feature Story Generate" }, { "step": "navigate", "title": "Navigate" }];
 
     const renderContent = () => {
 
@@ -26,12 +34,17 @@ export default function Page() {
                         <RequirementRefine handleFinishAction={handleRequirementRefineFinish} />
                     </div>
                 );
-            case "stories":
+            case "featureStoryGenerate":
+                return (
+                    <FeatureStoryGenerate requirements={requirements} handleFeatureStoriesSelectedAction={handleFeatureStoriesSelected} />
+                );
+            case "navigate":
                 return (
                     <div>
-                        {requirements}
+                        <p>{selectedFeatureStories?.feature}</p>
+                        {selectedFeatureStories?.stories.map((story, index) => <p key={index}>{story.story}</p>)}
                     </div>
-                );
+                )
             default:
                 return null;
         }
