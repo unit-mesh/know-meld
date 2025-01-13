@@ -2,8 +2,10 @@
 
 import RequirementRefine from "@/components/business/RequirementRefine";
 import { useState } from "react";
+import { Steps } from 'antd';
 
 type Step = "requirementRefine" | "stories" | "navigate";
+
 export default function Page() {
     const [currentStep, setCurrentStep] = useState<Step>("requirementRefine");
     const [requirements, setRequirements] = useState("");
@@ -13,12 +15,15 @@ export default function Page() {
         setRequirements(requirements);
     }
 
+    const steps = [{ "step": "requirementRefine", "title": "Requirement Refine" }, { "step": "stories", "title": "Stories" }, { "step": "navigate", "title": "Navigate" }];
+
     const renderContent = () => {
+
         switch (currentStep) {
             case "requirementRefine":
                 return (
                     <div className="flex flex-grow mb-4">
-                        <RequirementRefine handleFinishAction={handleRequirementRefineFinish}/>
+                        <RequirementRefine handleFinishAction={handleRequirementRefineFinish} />
                     </div>
                 );
             case "stories":
@@ -34,6 +39,10 @@ export default function Page() {
 
     return (
         <div className="container mx-auto p-4">
+            <Steps
+                current={steps.findIndex(step => step.step === currentStep)}
+                items={steps.map(step => { return { title: step.title } })}
+            />
             {renderContent()}
         </div>
     );
