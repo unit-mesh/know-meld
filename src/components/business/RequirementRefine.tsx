@@ -2,15 +2,11 @@
 
 import { useState } from "react";
 import { Button, Card, Input } from "antd";
+import { WorkNodeProps } from "@/core/WorkNode";
 
 const { TextArea } = Input;
 
-interface Props {
-    historicalContent?: string;
-    handleFinishAction: (value: string) => void;
-}
-
-export default function RequirementRefine({ historicalContent, handleFinishAction }: Props) {
+export default function RequirementRefine({ historicalContent, handleFinishAction }: WorkNodeProps) {
     const [requirementsContent, setRequirementsContent] = useState(historicalContent || "");
 
     return (<div className="w-full mx-auto justify-between mt-4">

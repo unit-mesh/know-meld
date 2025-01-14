@@ -18,9 +18,9 @@ export default function Page() {
         setRequirements(requirements);
     }
 
-    const handleFeatureStoriesSelected = (feature: Feature, stories: Story[]) => {
+    const handleFeatureStoriesSelected = (value: { selectedFeature: Feature, selectedStories: Story[] }) => {
         setCurrentStep("navigate");
-        setSelectedFeatureStories({ ...feature, stories });
+        setSelectedFeatureStories({ ...value.selectedFeature, stories: value.selectedStories });
     }
 
     const stepList = ["requirementRefine", "featureStoryGenerate", "navigate"];
@@ -37,7 +37,7 @@ export default function Page() {
                 );
             case "featureStoryGenerate":
                 return (
-                    <FeatureStoryGenerate requirements={requirements} handleFeatureStoriesSelectedAction={handleFeatureStoriesSelected} />
+                    <FeatureStoryGenerate contentInput={requirements} handleFinishAction={handleFeatureStoriesSelected} />
                 );
             case "navigate":
                 return (

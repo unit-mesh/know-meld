@@ -4,15 +4,11 @@ import { RightOutlined } from "@ant-design/icons";
 import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/StreamingMarkdownCodeBlock";
 import { yamlToFeatureStories } from "@/utils/YamlToObject";
 import { Feature, Story } from "@/app/genify.type";
+import { WorkNodeProps } from "@/core/WorkNode";
 
 const { Panel } = Collapse;
 
-interface Props {
-  requirements: string;
-  handleFeatureStoriesSelectedAction: (feature: Feature, stories: Story[]) => void;
-}
-
-export default function FeatureStoryGenerate({ requirements, handleFeatureStoriesSelectedAction }: Props) {
+export default function FeatureStoryGenerate({ contentInput, handleFinishAction }: WorkNodeProps) {
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
   const [selectedStories, setSelectedStories] = useState<Set<string>>(new Set());
   const [genFeatrueStoryDone, setGenFeatrueStoryDone] = useState<boolean>(true);
@@ -30,7 +26,7 @@ export default function FeatureStoryGenerate({ requirements, handleFeatureStorie
     const selectedFeatureObj = FeatureStoryList.find(f => f.id === selectedFeature);
     if (selectedFeatureObj) {
       const selectedStoriesArray = selectedFeatureObj.stories.filter(story => selectedStories.has(story.id));
-      handleFeatureStoriesSelectedAction(selectedFeatureObj, selectedStoriesArray);
+      handleFinishAction({ selectedFeature: selectedFeatureObj, selectedStories: selectedStoriesArray });
     }
   };
 
@@ -71,7 +67,7 @@ export default function FeatureStoryGenerate({ requirements, handleFeatureStorie
     let jsonContent = "";
     setGenFeatrueStoryDone(false);
 
-    const outline = requirements;
+    const outline = contentInput;
 
     const response: Response = await fetch("/api/business/feature-story", {
       method: "POST",
@@ -169,7 +165,7 @@ export default function FeatureStoryGenerate({ requirements, handleFeatureStorie
                           >
                             <Button
                               type="text"
-                              onClick={() => handleFeatureStoriesSelectedAction(feature, [story])}
+                              onClick={() => handleFinishAction({ selectedFeature: feature, selectedStories: [story] })}
                               className="w-full px-4 py-2 justify-between items-center"
                             >
                               <span className="text-left truncate mr-2 flex-1">{story.story}</span>
