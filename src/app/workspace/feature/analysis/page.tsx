@@ -33,7 +33,7 @@ export default function Page() {
         switch (currentStep) {
             case "requirementRefine":
                 return (
-                    <RequirementRefine historical={requirements} handleFinishAction={handleRequirementRefineFinish} />
+                    <RequirementRefine historicalContent={requirements} handleFinishAction={handleRequirementRefineFinish} />
                 );
             case "featureStoryGenerate":
                 return (

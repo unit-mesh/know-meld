@@ -6,12 +6,12 @@ import { Button, Card, Input } from "antd";
 const { TextArea } = Input;
 
 interface Props {
-    historical?: string;
+    historicalContent?: string;
     handleFinishAction: (value: string) => void;
 }
 
-export default function RequirementRefine({ historical, handleFinishAction }: Props) {
-    const [requirementsContent, setRequirementsContent] = useState(historical || "");
+export default function RequirementRefine({ historicalContent, handleFinishAction }: Props) {
+    const [requirementsContent, setRequirementsContent] = useState(historicalContent || "");
 
     return (<div className="w-full mx-auto justify-between mt-4">
         <Card
