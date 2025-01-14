@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 interface StepItem {
     step: string;
     title: string;
-    status?: "finish" | "process" | "wait" | "error";
+    disabled: boolean;
+    status: "finish" | "process" | "wait";
 }
 
 interface Props {
@@ -13,18 +14,26 @@ interface Props {
     handleStepOnchangeAction: (selectedStep: string) => void;
 }
 
-export default function ClickableSteps({currentStep, stepList, handleStepOnchangeAction }: Props) {
+export default function ClickableSteps({ currentStep, stepList, handleStepOnchangeAction }: Props) {
+    const [currentStepIndex, setCurrentStepIndex] = useState(0);
     const [stepItems, setStepItems] = useState<StepItem[]>([]);
     useEffect(() => {
-        const items = stepList.map((step, index) => {
+        const currentStepIndex = stepList.indexOf(currentStep);
+        setCurrentStepIndex(currentStepIndex);
+        const items = convertToStemItems(currentStepIndex, stepList);
+        setStepItems(items);
+    }, [currentStep, stepList]);
+
+    const convertToStemItems = (currentStepIndex: number, stepList: string[]) => {
+        return stepList.map((step, index) => {
             return {
                 step,
                 title: step,
-                status: currentStep === step ? "process" : currentStep === stepList[index + 1] ? "wait" : "finish" as "finish" | "process" | "wait" | "error"
+                status: currentStepIndex === index ? "process" : currentStepIndex > index ? "finish" : "wait" as "finish" | "process" | "wait",
+                disabled: currentStepIndex < index,
             };
         });
-        setStepItems(items);
-    }, [currentStep, stepList]);
+    }
 
     const stepOnchange = (current: number) => {
         handleStepOnchangeAction(stepItems[current].step);
@@ -32,6 +41,7 @@ export default function ClickableSteps({currentStep, stepList, handleStepOnchang
 
     return (
         <Steps
+            current={currentStepIndex}
             onChange={stepOnchange}
             items={stepItems}
         />
