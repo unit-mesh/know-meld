@@ -33,9 +33,7 @@ export default function Page() {
         switch (currentStep) {
             case "requirementRefine":
                 return (
-                    <div className="flex flex-grow mb-4">
-                        <RequirementRefine handleFinishAction={handleRequirementRefineFinish} />
-                    </div>
+                    <RequirementRefine historical={requirements} handleFinishAction={handleRequirementRefineFinish} />
                 );
             case "featureStoryGenerate":
                 return (

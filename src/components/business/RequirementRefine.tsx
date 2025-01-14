@@ -6,11 +6,12 @@ import { Button, Card, Input } from "antd";
 const { TextArea } = Input;
 
 interface Props {
+    historical?: string;
     handleFinishAction: (value: string) => void;
 }
 
-export default function RequirementRefine({ handleFinishAction }: Props) {
-    const [localReq, setLocalReq] = useState("");
+export default function RequirementRefine({ historical, handleFinishAction }: Props) {
+    const [requirementsContent, setRequirementsContent] = useState(historical || "");
 
     return (<div className="w-full mx-auto justify-between mt-4">
         <Card
@@ -21,17 +22,17 @@ export default function RequirementRefine({ handleFinishAction }: Props) {
             }
         >
             <TextArea
-                value={localReq}
+                value={requirementsContent}
                 rows={20}
                 onChange={(e) => {
-                    setLocalReq(e.target.value);
+                    setRequirementsContent(e.target.value);
                 }}
             />
             <div className="flex justify-between mt-4">
                 <Button type="primary"
-                    disabled={localReq.length === 0}
+                    disabled={requirementsContent.length === 0}
                     onClick={() => {
-                        handleFinishAction(localReq);
+                        handleFinishAction(requirementsContent);
                     }}>
                     {"Save and Continue"}
                 </Button>
