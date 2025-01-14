@@ -5,8 +5,9 @@ import RequirementRefine from "@/components/business/RequirementRefine";
 import FeatureStoryGenerate from "@/components/business/FeatureStoryGenerate";
 import { Feature, Story } from "@/app/genify.type";
 import ClickableSteps from "@/components/steps/ClickableSteps";
+import UseCaseGenerate from "@/components/business/UseCaseGenerate";
 
-type Step = "requirementRefine" | "featureStoryGenerate" | "navigate";
+type Step = "requirementRefine" | "featureStoryGenerate" | "useCaseGenerate";
 
 export default function Page() {
     const [currentStep, setCurrentStep] = useState<Step>("requirementRefine");
@@ -19,13 +20,17 @@ export default function Page() {
     }
 
     const handleFeatureStoriesSelected = (value: { selectedFeature: Feature, selectedStories: Story[] }) => {
-        setCurrentStep("navigate");
+        setCurrentStep("useCaseGenerate");
         setSelectedFeatureStories({ ...value.selectedFeature, stories: value.selectedStories });
     }
 
-    const stepList = ["requirementRefine", "featureStoryGenerate", "navigate"];
+    const stepList = ["requirementRefine", "featureStoryGenerate", "useCaseGenerate"];
     function handleStepOnchange(selectedStep: string): void {
         setCurrentStep(selectedStep as Step);
+    }
+
+    const handleUseCaseGenerated = () => {
+        console.log("use case generated");
     }
 
     const renderContent = () => {
@@ -39,12 +44,9 @@ export default function Page() {
                 return (
                     <FeatureStoryGenerate contentInput={requirements} handleFinishAction={handleFeatureStoriesSelected} />
                 );
-            case "navigate":
+            case "useCaseGenerate":
                 return (
-                    <div>
-                        <p>{selectedFeatureStories?.feature}</p>
-                        {selectedFeatureStories?.stories.map((story, index) => <p key={index}>{story.story}</p>)}
-                    </div>
+                    <UseCaseGenerate contentInput={{ requirements, selectedFeatureStories }} handleFinishAction={handleUseCaseGenerated} />
                 )
             default:
                 return null;
