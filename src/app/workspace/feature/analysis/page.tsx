@@ -1,10 +1,10 @@
 "use client"
 
-import RequirementRefine from "@/components/business/RequirementRefine";
 import { useState } from "react";
-import { Steps } from 'antd';
+import RequirementRefine from "@/components/business/RequirementRefine";
 import FeatureStoryGenerate from "@/components/business/FeatureStoryGenerate";
 import { Feature, Story } from "@/app/genify.type";
+import ClickableSteps from "@/components/steps/ClickableSteps";
 
 type Step = "requirementRefine" | "featureStoryGenerate" | "navigate";
 
@@ -20,10 +20,13 @@ export default function Page() {
 
     const handleFeatureStoriesSelected = (feature: Feature, stories: Story[]) => {
         setCurrentStep("navigate");
-        setSelectedFeatureStories({...feature, stories});
+        setSelectedFeatureStories({ ...feature, stories });
     }
 
-    const steps = [{ "step": "requirementRefine", "title": "Requirement Refine" }, { "step": "featureStoryGenerate", "title": "Feature Story Generate" }, { "step": "navigate", "title": "Navigate" }];
+    const stepList = ["requirementRefine", "featureStoryGenerate", "navigate"];
+    function handleStepOnchange(selectedStep: string): void {
+        setCurrentStep(selectedStep as Step);
+    }
 
     const renderContent = () => {
 
@@ -52,10 +55,7 @@ export default function Page() {
 
     return (
         <div className="container mx-auto p-4">
-            <Steps
-                current={steps.findIndex(step => step.step === currentStep)}
-                items={steps.map(step => { return { title: step.title } })}
-            />
+            <ClickableSteps currentStep={currentStep} stepList={stepList} handleStepOnchangeAction={handleStepOnchange} />
             {renderContent()}
         </div>
     );
