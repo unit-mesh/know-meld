@@ -64,12 +64,11 @@ export default function FeatureStoryGenerate({ contentInput, handleFinishAction 
   };
 
   const splitStory = async () => {
-    let jsonContent = "";
     setGenFeatrueStoryDone(false);
 
     const outline = contentInput;
 
-    const response: Response = await fetch("/api/business/feature-story", {
+    const response: Response = await fetch("/api/business/split-feature-user-story", {
       method: "POST",
       headers: { Accept: "text/event-stream" },
       body: JSON.stringify({
@@ -84,6 +83,7 @@ export default function FeatureStoryGenerate({ contentInput, handleFinishAction 
     const decoder = new TextDecoder();
     let isDone = false;
 
+    let context = "";
     while (!isDone) {
       const { value, done } = await reader.read();
       if (done) {
@@ -91,16 +91,14 @@ export default function FeatureStoryGenerate({ contentInput, handleFinishAction 
       }
 
       if (value) {
-        const text = decoder.decode(value);
-        jsonContent = jsonContent + text;
+        context += decoder.decode(value);
 
-        const codeBlock = StreamingMarkdownCodeBlock.parse(jsonContent);
+        const codeBlock = StreamingMarkdownCodeBlock.parse(context);
         try {
           const data: Feature[] = yamlToFeatureStories(codeBlock.text);
           try {
             if (data[data.length - 1].stories.length > 0) {
               setFeatureStoryList(data);
-              console.log('data', data);
             }
           } catch (e) {
             // ignore
