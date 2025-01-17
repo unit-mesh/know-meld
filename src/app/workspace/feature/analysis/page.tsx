@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import RequirementRefine from "@/components/business/RequirementRefine";
-import FeatureStoryGenerate from "@/components/business/FeatureStoryGenerate";
+import FeatureUserStoryGenerate from "@/components/business/FeatureUserStoryGenerate";
 import { Feature, Story } from "@/app/genify.type";
 import ClickableSteps from "@/components/steps/ClickableSteps";
 import UseCaseGenerate from "@/components/business/UseCaseGenerate";
 
-type Step = "requirementRefine" | "featureStoryGenerate" | "useCaseGenerate";
+type Step = "requirementRefine" | "featureUserStoryGenerate" | "useCaseGenerate";
 
 export default function Page() {
     const [currentStep, setCurrentStep] = useState<Step>("requirementRefine");
@@ -15,7 +15,7 @@ export default function Page() {
     const [selectedFeatureStories, setSelectedFeatureStories] = useState<Feature>();
 
     const handleRequirementRefineFinish = (requirements: string) => {
-        setCurrentStep("featureStoryGenerate");
+        setCurrentStep("featureUserStoryGenerate");
         setRequirements(requirements);
     }
 
@@ -24,7 +24,7 @@ export default function Page() {
         setSelectedFeatureStories({ ...value.selectedFeature, stories: value.selectedStories });
     }
 
-    const stepList = ["requirementRefine", "featureStoryGenerate", "useCaseGenerate"];
+    const stepList = ["requirementRefine", "featureUserStoryGenerate", "useCaseGenerate"];
     function handleStepOnchange(selectedStep: string): void {
         setCurrentStep(selectedStep as Step);
     }
@@ -40,9 +40,9 @@ export default function Page() {
                 return (
                     <RequirementRefine historicalContent={requirements} handleFinishAction={handleRequirementRefineFinish} />
                 );
-            case "featureStoryGenerate":
+            case "featureUserStoryGenerate":
                 return (
-                    <FeatureStoryGenerate contentInput={requirements} handleFinishAction={handleFeatureStoriesSelected} />
+                    <FeatureUserStoryGenerate contentInput={requirements} handleFinishAction={handleFeatureStoriesSelected} />
                 );
             case "useCaseGenerate":
                 return (

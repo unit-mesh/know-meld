@@ -68,7 +68,7 @@ export default function FeatureStoryGenerate({ contentInput, handleFinishAction 
 
     const outline = contentInput;
 
-    const response: Response = await fetch("/api/business/split-feature-user-story", {
+    const response: Response = await fetch("/api/business/feature-user-story-generation", {
       method: "POST",
       headers: { Accept: "text/event-stream" },
       body: JSON.stringify({
