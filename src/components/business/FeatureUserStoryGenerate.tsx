@@ -5,6 +5,7 @@ import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/Streaming
 import { yamlToFeatureStories } from "@/utils/YamlToObject";
 import { Feature, Story } from "@/app/genify.type";
 import { WorkNodeProps } from "@/core/WorkNode";
+import GenerateFeatureUserStoryPrompt from "@/prompts/GenerateFeatureUserStory.prompt"
 
 const { Panel } = Collapse;
 
@@ -66,18 +67,15 @@ export default function FeatureStoryGenerate({ contentInput, handleFinishAction 
   const splitStory = async () => {
     setGenFeatrueStoryDone(false);
 
-    const outline = contentInput;
+    const content = GenerateFeatureUserStoryPrompt("product-info", "feature-term", "story-term", "user-story-spec", contentInput);
 
-    const response: Response = await fetch("/api/business/feature-user-story-generation", {
+    const response: Response = await fetch("/api/llm/glm", {
       method: "POST",
       headers: { Accept: "text/event-stream" },
       body: JSON.stringify({
-        requirement_doc_outlines: outline,
-        product: "productInfo",
+        content
       }),
     });
-
-    message.info("parsingDocument");
 
     const reader = response.body!.getReader();
     const decoder = new TextDecoder();

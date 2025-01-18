@@ -1,8 +1,9 @@
-import { handleErrorResponse, handleStreamSuccessResponse } from "@/app/api/_utils/handle-response-util";
 import axios from "axios";
+import { handleErrorResponse, handleStreamSuccessResponse } from "@/app/api/_utils/handle-response-util";
 
-export async function chatCompletions(content: string) {
+export async function POST(request: Request) {
     try {
+        const { content } = await request.json();
         const response: Response = await axios.post('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
             "model": "glm-4-flash",
             "stream": true,
