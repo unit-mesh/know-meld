@@ -6,9 +6,11 @@ import Link from "next/link";
 const { Header } = Layout;
 
 export default function AntdHeader(props: LayoutProps & { headerTitle: string }) {
+    const { headerTitle, ...otherProps } = props;
+
   return (
     <Header
-      {...props}
+      {...otherProps}
       className="flex items-center justify-between px-4 bg-background text-foreground"
       style={{
         ...props.style,

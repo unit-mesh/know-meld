@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import Header from "@/components/layout/Header";
-import Sider from "@/components/layout/Sider";
+import Sider, { MenuItem } from "@/components/layout/Sider";
 import Content from "@/components/layout/Content";
 
 import {
@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 
 import "./globals.css";
+import React from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
 
 const headerTitle = "KnowMeld";
 
-const menus = [
+const menuItems: MenuItem[] = [
   {
     key: "lite",
     label: "Lite",
@@ -43,12 +44,12 @@ const menus = [
   {
     key: "workspace",
     label: "Workspace",
-    icon: <ProjectOutlined />,
-    items: [
+    icon: <ProjectOutlined/>,
+    children: [
       {
         key: "/workspace/feature/analysis",
         label: "Feature Analysis",
-        icon: <RocketOutlined />,
+        icon: <RocketOutlined/>,
         routeTo: "/workspace/feature/analysis",
       }
     ],
@@ -56,21 +57,27 @@ const menus = [
   {
     key: "knowledge",
     label: "Knowledge",
-    icon: <DatabaseOutlined />,
-    items: [
+    icon: <DatabaseOutlined/>,
+    children: [
       {
         key: "item-2-sub-1",
         label: "Item 2 Sub 1",
-        icon: <DatabaseOutlined />,
+        icon: <DatabaseOutlined/>,
         routeTo: "/",
       },
       {
         key: "item-2-sub-2",
         label: "Item 2 Sub 2",
-        icon: <DatabaseOutlined />,
+        icon: <DatabaseOutlined/>,
         routeTo: "/",
       },
     ],
+  },
+  {
+    key: "chat",
+    label: "Ask AI",
+    icon: <CommentOutlined/>,
+    routeTo: "/",
   }
 ];
 
@@ -81,29 +88,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <AntdRegistry>
-          <Layout style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
-            <Header style={{ display: "flex", alignItems: "center" }}  headerTitle={headerTitle}/>
-            <Layout style={{ flex: 1, display: "flex", flexDirection: "row", overflow: "hidden" }}>
-              <Sider width={240} style={{ overflow: "auto" }} menus={menus} />
-              <Layout
-                style={{ display: "flex", flexDirection: "column", flex: 1, overflow: "auto" }}>
-                <Content
-                  style={{
-                    margin: 0,
-                    minHeight: 280,
-                  }}
-                >
-                  {children}
-                </Content>
-              </Layout>
-            </Layout>
+    <body
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    >
+    <AntdRegistry>
+      <Layout style={{height: "100vh", display: "flex", flexDirection: "column"}}>
+        <Header style={{display: "flex", alignItems: "center"}} headerTitle={headerTitle}/>
+        <Layout style={{flex: 1, display: "flex", flexDirection: "row", overflow: "hidden"}}>
+          <Sider width={240} style={{overflow: "auto"}} menuItems={menuItems}/>
+          <Layout
+            style={{display: "flex", flexDirection: "column", flex: 1, overflow: "auto"}}>
+            <Content
+              style={{
+                margin: 0,
+                minHeight: 280,
+              }}
+            >
+              {children}
+            </Content>
           </Layout>
-        </AntdRegistry>
-      </body>
+        </Layout>
+      </Layout>
+    </AntdRegistry>
+    </body>
     </html>
   );
 }
