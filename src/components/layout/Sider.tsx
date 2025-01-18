@@ -1,88 +1,61 @@
 "use client";
 
-import Layout, { SiderProps } from "antd/lib/layout";
-import { Menu, theme, Tooltip } from "antd";
-import { usePathname, useRouter } from "next/navigation";
+import Layout, {SiderProps} from "antd/lib/layout";
+import {Menu, MenuProps, theme } from "antd";
+import {usePathname, useRouter} from "next/navigation";
 import React from "react";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const Sider = Layout.Sider;
 
-interface MenuItem {
-  key: string;
-  label: string;
-  icon: React.ReactNode;
-  items?: MenuItem[];
-  routeTo?: string;
-  disabled?: boolean;
-}
+export type MenuItem = Required<MenuProps>['items'][number] & { routeTo?: string, children?: MenuItem[] };
 
-export default function AntdSider(props: SiderProps & { menus: MenuItem[] }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+const replaceRouteToWithOnClick = (menuItem: MenuItem[], push: AppRouterInstance['push']): MenuItem[] => {
+  return menuItem.map((item) => {
+    const {routeTo, ...newItem} = item;
 
-  const renderMenuItem = (item: MenuItem) => {
-    if (item?.items) {
-      return (
-        <Menu.SubMenu
-          key={item.key}
-          title={
-            collapsed ? (
-              <Tooltip placement="right" title={item.label}>
-                {item.icon}
-              </Tooltip>
-            ) : (
-              <>
-                {item.icon}
-                <span>{item.label}</span>
-              </>
-            )
-          }
-        >
-          {item.items.map(renderMenuItem)}
-        </Menu.SubMenu>
-      );
+    if (item.children) {
+      return {
+        ...newItem,
+        children: replaceRouteToWithOnClick(item.children, push),
+      };
     }
 
-    return (<Menu.Item key={item.key} onClick={() => item.routeTo && router.push(item.routeTo)} disabled={item.disabled} style={
-      collapsed ? { paddingLeft: "24px" } : {}
-    }>
-      {collapsed ? (
-        <Tooltip placement="right" title={item.label}>
-          {item.icon}
-        </Tooltip>
-      ) : (
-        <>
-          {item.icon}
-          <span>{item.label}</span>
-        </>
-      )}
-    </Menu.Item>
-    );
-  };
+    return {
+      ...newItem,
+      onClick: () => {
+        if (item.routeTo) {
+          push(item.routeTo);
+        }
+      },
+    };
+  });
+}
 
-  const [collapsed, setCollapsed] = React.useState(false);
+export default function AntdSider(props: SiderProps & { menuItems: MenuItem[] }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const newMenuItems = replaceRouteToWithOnClick(props.menuItems, router.push);
+  const {
+    token: {colorBgContainer},
+  } = theme.useToken();
 
   return (
     <Sider
       collapsible
       collapsedWidth={80}
-      onCollapse={setCollapsed}
       {...props} style={{
-        background: colorBgContainer,
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-      }}>
-      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      background: colorBgContainer,
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+    }}>
+      <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
         <Menu
           mode="inline"
           selectedKeys={[pathname]}
-        >
-          {props.menus.map(renderMenuItem)}
-        </Menu>
+          items={newMenuItems}
+        />
       </div>
     </Sider>
   );
