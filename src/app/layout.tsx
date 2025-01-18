@@ -35,6 +35,12 @@ const headerTitle = "KnowMeld";
 
 const menus = [
   {
+    key: "lite",
+    label: "Lite",
+    icon: <RocketOutlined />,
+    routeTo: "/lite",
+  },
+  {
     key: "workspace",
     label: "Workspace",
     icon: <ProjectOutlined />,
@@ -65,12 +71,6 @@ const menus = [
         routeTo: "/",
       },
     ],
-  },
-  {
-    key: "chat",
-    label: "Ask AI",
-    icon: <CommentOutlined />,
-    routeTo: "/",
   }
 ];
 

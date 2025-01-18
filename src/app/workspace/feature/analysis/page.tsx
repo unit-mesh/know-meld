@@ -4,29 +4,29 @@ import { useState } from "react";
 import RequirementRefine from "@/components/business/RequirementRefine";
 import FeatureUserStoryGenerate from "@/components/business/FeatureUserStoryGenerate";
 import { Feature, Story } from "@/app/genify.type";
-import ClickableSteps from "@/components/steps/ClickableSteps";
+import ClickableWorkStage from "@/components/workflow/ClickableWorkStage";
 import UseCaseGenerate from "@/components/business/UseCaseGenerate";
 
-type Step = "requirementRefine" | "featureUserStoryGenerate" | "useCaseGenerate";
+type Stage = "requirementRefine" | "featureUserStoryGenerate" | "useCaseGenerate";
+const stageList = ["requirementRefine", "featureUserStoryGenerate", "useCaseGenerate"];
 
 export default function Page() {
-    const [currentStep, setCurrentStep] = useState<Step>("requirementRefine");
+    const [currentStage, setCurrentStage] = useState<Stage>("requirementRefine");
     const [requirements, setRequirements] = useState("");
     const [selectedFeatureStories, setSelectedFeatureStories] = useState<Feature>();
 
     const handleRequirementRefineFinish = (requirements: string) => {
-        setCurrentStep("featureUserStoryGenerate");
+        setCurrentStage("featureUserStoryGenerate");
         setRequirements(requirements);
     }
 
     const handleFeatureStoriesSelected = (value: { selectedFeature: Feature, selectedStories: Story[] }) => {
-        setCurrentStep("useCaseGenerate");
+        setCurrentStage("useCaseGenerate");
         setSelectedFeatureStories({ ...value.selectedFeature, stories: value.selectedStories });
     }
 
-    const stepList = ["requirementRefine", "featureUserStoryGenerate", "useCaseGenerate"];
-    function handleStepOnchange(selectedStep: string): void {
-        setCurrentStep(selectedStep as Step);
+    function handleStageOnchange(selectedStage: string): void {
+        setCurrentStage(selectedStage as Stage);
     }
 
     const handleUseCaseGenerated = () => {
@@ -35,7 +35,7 @@ export default function Page() {
 
     const renderContent = () => {
 
-        switch (currentStep) {
+        switch (currentStage) {
             case "requirementRefine":
                 return (
                     <RequirementRefine historicalContent={requirements} handleFinishAction={handleRequirementRefineFinish} />
@@ -55,7 +55,7 @@ export default function Page() {
 
     return (
         <div className="container mx-auto p-4">
-            <ClickableSteps currentStep={currentStep} stepList={stepList} handleStepOnchangeAction={handleStepOnchange} />
+            <ClickableWorkStage currentStage={currentStage} stageList={stageList} handleStageOnchangeAction={handleStageOnchange} />
             {renderContent()}
         </div>
     );
