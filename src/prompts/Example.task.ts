@@ -2,7 +2,7 @@ import { Task } from "@/core/Task";
 
 export const tasks: Task[] = [
     {
-        goal: '根据输入的内容，生成一个Feature对象',
+        goal: '根据输入的内容，拆分Feature和UserStory',
         role: '产品经理',
         skills: [
             '对产品设计和需求分析有非常丰富的经验。',
@@ -37,6 +37,7 @@ export const tasks: Task[] = [
             '先仔细阅读<Input>文档部分。',
             '生成摘要。',
         ],
+        example: "摘要：",
         checkPoints: [
             '确保摘要内容完整。',
             '不超过200字。',
