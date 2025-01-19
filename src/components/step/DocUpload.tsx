@@ -65,7 +65,7 @@ export default function DocUpload({ handleDocUploadAction }: Props) {
       accept=".docx,.md,.txt,.text" // 支持更多类型的文件
       maxCount={1}
     >
-      <Button icon={<UploadOutlined />}></Button>
+      <Button icon={<UploadOutlined />}>Upload</Button>
     </Upload>
   );
 };

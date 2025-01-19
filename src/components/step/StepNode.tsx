@@ -1,10 +1,17 @@
 import { Button, Card } from "antd";
 import { ReactNode } from "react";
+import DocUpload from "./DocUpload";
 
-export default function StepNode({ children, continueable, onContinue }: { children: ReactNode, continueable?: boolean, onContinue?: () => void }) {
+export default function StepNode({ children, handleDocUploadAction, continueable, onContinue }: { children: ReactNode, handleDocUploadAction?: (value: string) => void, continueable?: boolean, onContinue?: () => void }) {
     return (
-        <Card>
-            <div className="w-full mx-auto justify-between mt-4">
+        <Card >
+            <div className="w-full mx-auto justify-between">
+                {
+                    handleDocUploadAction &&
+                    <div className="mb-4">
+                        <DocUpload handleDocUploadAction={handleDocUploadAction} />
+                    </div>
+                }
                 {children}
                 {
                     continueable !== undefined &&

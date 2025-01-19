@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Input } from "antd";
 import StepNode from "@/components/step/StepNode";
 import { StepNodeProps } from "@/core/StepNode";
-import DocUpload from "./DocUpload";
 
 const { TextArea } = Input;
 
@@ -11,8 +10,11 @@ export default function ContextSetup({ historicalContent, handleFinishAction }: 
     const [content, setContent] = useState(historicalContent || "");
 
     return (
-        <StepNode continueable={true} onContinue={() => handleFinishAction(content)}>
-            <DocUpload handleDocUploadAction={(value) => setContent(value)} />
+        <StepNode
+            handleDocUploadAction={(value) => setContent(value)}
+            continueable={true}
+            onContinue={() => handleFinishAction(content)}
+        >
             <TextArea
                 autoSize
                 value={content}

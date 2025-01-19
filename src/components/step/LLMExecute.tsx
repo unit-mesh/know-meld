@@ -12,11 +12,11 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
     const [exceptionOutput, setExceptionOutput] = useState("");
     const [exceptionDone, setExceptionDone] = useState<boolean>(true);
 
-    const {task, context, executionInput} = contentInput;
-
     const executeTask = async () => {
         setExceptionOutput("")
         setExceptionDone(false);
+
+        const { task, context, executionInput } = contentInput;
 
         const prompt = ExamplePrompt(task, context, executionInput)
 
@@ -52,12 +52,14 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
 
     return (
         <StepNode>
-            <Button
-                disabled={!exceptionDone}
-                onClick={executeTask}
-            >
-                {"Excute"}
-            </Button>
+            <div className="mb-4">
+                <Button
+                    disabled={!exceptionDone}
+                    onClick={executeTask}
+                >
+                    {"Excute"}
+                </Button>
+            </div>
             <CodeMirror
                 value={exceptionOutput}
                 editable={false}
