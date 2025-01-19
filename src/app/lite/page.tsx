@@ -1,14 +1,14 @@
 "use client"
 
-import ContextSetup from '@/components/business/ContextSetup';
+import ContextSetup from '@/components/step/ContextSetup';
 import WorkNode from '@/components/workflow/WorkNode';
-import StepNode from "@/components/workflow/StepNode";
-import TaskSetup from '@/components/business/TaskSetup';
+import StepNode from "@/components/step/StepNode";
+import TaskSetup from '@/components/step/TaskSetup';
 import { useState } from 'react';
 import { Task } from '@/core/Task';
-import LLMExecute from '@/components/business/LLMExecute';
+import LLMExecute from '@/components/step/LLMExecute';
 import { Steps } from 'antd';
-import ExecutionInputSetup from '@/components/business/ExecutionInputSetup';
+import ExecutionInputSetup from '@/components/step/ExecutionInputSetup';
 
 
 export default function Page() {
