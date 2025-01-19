@@ -1,26 +1,19 @@
 
 import { useState } from "react";
-import { Button, Card, Input } from "antd";
+import { Button, Input } from "antd";
 
 const { TextArea } = Input;
 
 interface Props {
-    title: string
     historicalContent?: string;
     handleFinishAction: (content: string) => void;
 }
 
-export default function ContextInput({ title, historicalContent, handleFinishAction }: Props) {
+export default function ContextSetup({ historicalContent, handleFinishAction }: Props) {
     const [content, setContent] = useState(historicalContent || "");
 
     return (
-        <Card
-            title={title}
-            extra={
-                <div className="space-x-4">
-                </div>
-            }
-        >
+        <div>
             <TextArea
                 autoSize
                 value={content}
@@ -37,6 +30,6 @@ export default function ContextInput({ title, historicalContent, handleFinishAct
                     {"Save and Continue"}
                 </Button>
             </div>
-        </Card>
+        </div>
     );
 }

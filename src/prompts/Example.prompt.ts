@@ -1,6 +1,6 @@
 import { Task } from "@/core/Task";
 
-export default function prompt(task: Task, context: string, keyPoints: string[], input: string) {
+export default function prompt(task: Task, context?: string, executionInput?: string) {
     return `
 <Role>
 ${task.role}
@@ -27,12 +27,8 @@ ${task.example}
 ${task.checkPoints?.map(item => `- ${item}`).join('\n')}
 </CheckPoint>
 
-<KeyPoint>
-${keyPoints?.map(item => `- ${item}`).join('\n')}
-</KeyPoint>
-
-<Input>
-${input}
-</Input>
+<ExecutionInput>
+${executionInput}
+</ExecutionInput>
 `;
 };

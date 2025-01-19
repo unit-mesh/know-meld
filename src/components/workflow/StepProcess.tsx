@@ -1,30 +1,37 @@
-import { Steps, Timeline } from "antd";
-import { useEffect, useState } from "react";
+import { Steps } from "antd";
+import { ReactNode, useEffect, useState } from "react";
+
+interface StepItem {
+    title: string,
+    node?: ReactNode,
+}
 
 interface Props {
     currentStep: number;
-    stepList: string[];
+    stepList: StepItem[];
     finished: boolean;
 }
 
-export default function StepProcess({ currentStep, stepList, finished }: Props) {
+export default function StepProcess({ currentStep, stepList }: Props) {
 
     function convertToPending(currentStep: number, stepList: string[]) {
         return currentStep < stepList.length ? stepList[currentStep] : undefined;
     }
 
-    function convertToItems(stepList: string[]) {
-        return stepList.filter((step, index) => index < currentStep).map((step, index) => {
+    function convertToItems(stepList: StepItem[]) {
+        return stepList.map((step, index) => {
             return {
-                children: step,
+                title: step.title,
+                description: step.node
             };
         }
         );
     }
 
     return (
-        <Timeline
-            pending={convertToPending(currentStep, stepList)}
+        <Steps
+            direction="vertical"
+            current={currentStep}
             items={convertToItems(stepList)}
         />
     );

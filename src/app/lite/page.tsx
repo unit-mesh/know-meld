@@ -1,50 +1,74 @@
 "use client"
 
-import ContextInput from '@/components/business/ContextInput';
+import ContextSetup from '@/components/business/ContextSetup';
 import WorkNode from '@/components/workflow/WorkNode';
 import StepNode from "@/components/workflow/StepNode";
 import TaskSetup from '@/components/business/TaskSetup';
 import { useState } from 'react';
 import { Task } from '@/core/Task';
-import StepProcess from '@/components/workflow/StepProcess';
 import LLMExecute from '@/components/business/LLMExecute';
+import { Steps } from 'antd';
+import ExecutionInputSetup from '@/components/business/ExecutionInputSetup';
 
 
-const steps = ["Task Setup", "Context Input", "Execute", "Export"];
 export default function Page() {
     const [currentStep, setCurrentStep] = useState(0);
-    const [taskSetting, setTaskSetting] = useState({});
+    const [task, setTask] = useState<Task>({ goal: "" });
     const [context, setContext] = useState("");
+    const [executionInput, setExecutionInput] = useState("")
 
     function handleTaskSetupFinishAction(value: Task): void {
-        setTaskSetting(value);
+        setTask(value);
         setCurrentStep(1);
     }
 
-    function handleContextInputFinishAction(value: string): void {
+    function handleContextSetupFinishAction(value: string): void {
         setContext(value);
         setCurrentStep(2);
     }
 
-    function renderCurrentStep() {
-        switch (currentStep) {
-            case 0:
-                return <TaskSetup handleFinishAction={handleTaskSetupFinishAction} />;
-            case 1:
-                return <ContextInput title='Context Input' handleFinishAction={handleContextInputFinishAction} />;
-            case 2:
-                return <LLMExecute handleFinishAction={() => { }} />;
-            default:
-                return null;
+    function handleExecutionInputSetupFinishAction(value: string): void {
+        setExecutionInput(value);
+        setCurrentStep(3);
+    }
+
+
+    function convertToStepItems(currentStage: number) {
+        const stepItems = [
+            {
+                title: "Task",
+                node: <TaskSetup handleFinishAction={handleTaskSetupFinishAction} />
+            },
+            {
+                title: "Context",
+                node: <ContextSetup handleFinishAction={handleContextSetupFinishAction} />
+            },
+            {
+                title: "Input",
+                node: <ExecutionInputSetup handleFinishAction={handleExecutionInputSetupFinishAction} />
+            },
+            {
+                title: "Execute",
+                node: <LLMExecute task={task} context={context} executionInput={executionInput} handleFinishAction={() => { }} />
+            }
+        ]
+
+        return stepItems.map((stepItem, index) => {
+            return {
+                title: stepItem.title,
+                description: index <= currentStage ? <StepNode>{stepItem.node}</StepNode> : undefined
+            };
         }
+        )
     }
 
     return (
         <WorkNode>
-            <StepProcess currentStep={currentStep} stepList={steps} finished={false} />
-            <StepNode>
-                {renderCurrentStep()}
-            </StepNode>
+            <Steps
+                direction="vertical"
+                current={currentStep}
+                items={convertToStepItems(currentStep)}
+            />
         </WorkNode>
     );
 }
