@@ -6,6 +6,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { markdown } from "@codemirror/lang-markdown";
 import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/StreamingMarkdownCodeBlock";
 import { Button } from "antd";
+import StepNode from "@/components/step/StepNode";
 
 interface Props {
     task: Task,
@@ -56,7 +57,7 @@ export default function LLMExecute({ task, context, executionInput, handleFinish
     };
 
     return (
-        <div>
+        <StepNode>
             <Button
                 disabled={!exceptionDone}
                 onClick={executeTask}
@@ -72,6 +73,6 @@ export default function LLMExecute({ task, context, executionInput, handleFinish
                 extensions={[markdown()]}
                 className="mb-4"
             />
-        </div>
+        </StepNode>
     );
 }

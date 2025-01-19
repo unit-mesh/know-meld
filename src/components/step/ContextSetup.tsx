@@ -1,6 +1,7 @@
 
 import { useState } from "react";
-import { Button, Input } from "antd";
+import { Input } from "antd";
+import StepNode from "@/components/step/StepNode";
 
 const { TextArea } = Input;
 
@@ -13,7 +14,7 @@ export default function ContextSetup({ historicalContent, handleFinishAction }: 
     const [content, setContent] = useState(historicalContent || "");
 
     return (
-        <div>
+        <StepNode continueable={!!content} onContinue={() => handleFinishAction(content)}>
             <TextArea
                 autoSize
                 value={content}
@@ -21,15 +22,6 @@ export default function ContextSetup({ historicalContent, handleFinishAction }: 
                     setContent(e.target.value);
                 }}
             />
-            <div className="flex justify-between mt-4">
-                <Button type="primary"
-                    disabled={content.length === 0}
-                    onClick={() => {
-                        handleFinishAction(content);
-                    }}>
-                    {"Save and Continue"}
-                </Button>
-            </div>
-        </div>
+        </StepNode>
     );
 }

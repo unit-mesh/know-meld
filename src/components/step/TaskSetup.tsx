@@ -1,8 +1,9 @@
 
 import { useEffect, useState } from "react";
-import { Select, Space, Button } from "antd";
+import { Select } from "antd";
 import { Task } from '@/core/Task';
 import { tasks } from '@/prompts/Example.task';
+import StepNode from "@/components/step/StepNode";
 
 interface Props {
     handleFinishAction: (value: Task) => void;
@@ -30,22 +31,13 @@ export default function TaskSetup({ handleFinishAction }: Props) {
     };
 
     return (
-        <Space direction="vertical" >
+        <StepNode continueable={!!task} onContinue={() => task && handleFinishAction(task)}>
             <Select
                 placeholder="Task"
-                style={{ minWidth: 200 }}
+                style={{ width: "100%" }}
                 onChange={handleTaskChange}
                 options={taskOptions}
             />
-            <Button type="primary"
-                disabled={!task}
-                onClick={() => {
-                    if (task) {
-                        handleFinishAction(task);
-                    }
-                }}>
-                {"Save and Continue"}
-            </Button>
-        </Space>
+        </StepNode>
     );
 }

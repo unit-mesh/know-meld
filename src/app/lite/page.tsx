@@ -2,7 +2,6 @@
 
 import ContextSetup from '@/components/step/ContextSetup';
 import WorkNode from '@/components/workflow/WorkNode';
-import StepNode from "@/components/step/StepNode";
 import TaskSetup from '@/components/step/TaskSetup';
 import { useState } from 'react';
 import { Task } from '@/core/Task';
@@ -56,7 +55,7 @@ export default function Page() {
         return stepItems.map((stepItem, index) => {
             return {
                 title: stepItem.title,
-                description: index <= currentStage ? <StepNode>{stepItem.node}</StepNode> : undefined
+                description: index <= currentStage ? stepItem.node : undefined
             };
         }
         )
