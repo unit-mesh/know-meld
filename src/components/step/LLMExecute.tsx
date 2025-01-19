@@ -51,7 +51,7 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
     };
 
     return (
-        <StepNode exportData={exceptionOutput}>
+        <StepNode archiveData={exceptionOutput} exportData={exceptionOutput}>
             <div className="mb-4">
                 <Button
                     disabled={!exceptionDone}
