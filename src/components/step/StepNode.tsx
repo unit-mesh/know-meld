@@ -1,10 +1,11 @@
 import { Button, Card } from "antd";
 import { ReactNode } from "react";
 import DocUpload from "./DocUpload";
+import DataExport from "./DataExport";
 
-export default function StepNode({ children, handleDocUploadAction, continueable, onContinue }: { children: ReactNode, handleDocUploadAction?: (value: string) => void, continueable?: boolean, onContinue?: () => void }) {
+export default function StepNode({ children, handleDocUploadAction, continueable, onContinue, exportData }: { children: ReactNode, handleDocUploadAction?: (value: string) => void, continueable?: boolean, onContinue?: () => void, exportData?: string }) {
     return (
-        <Card >
+        <Card extra={exportData && <DataExport data={exportData} />}>
             <div className="w-full mx-auto justify-between">
                 {
                     handleDocUploadAction &&
