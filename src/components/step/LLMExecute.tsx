@@ -1,5 +1,4 @@
 
-import { Task } from "@/core/Task";
 import { useState } from "react";
 import ExamplePrompt from "@/prompts/Example.prompt"
 import CodeMirror from "@uiw/react-codemirror";
@@ -7,18 +6,13 @@ import { markdown } from "@codemirror/lang-markdown";
 import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/StreamingMarkdownCodeBlock";
 import { Button } from "antd";
 import StepNode from "@/components/step/StepNode";
+import { StepNodeProps } from "@/core/StepNode";
 
-interface Props {
-    task: Task,
-    context: string,
-    executionInput: string,
-    handleFinishAction: (content: string) => void;
-}
-
-export default function LLMExecute({ task, context, executionInput, handleFinishAction }: Props) {
+export default function LLMExecute({ contentInput }: StepNodeProps) {
     const [exceptionOutput, setExceptionOutput] = useState("");
     const [exceptionDone, setExceptionDone] = useState<boolean>(true);
 
+    const {task, context, executionInput} = contentInput;
 
     const executeTask = async () => {
         setExceptionOutput("")

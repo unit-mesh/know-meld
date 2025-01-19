@@ -4,12 +4,9 @@ import { Select } from "antd";
 import { Task } from '@/core/Task';
 import { tasks } from '@/prompts/Example.task';
 import StepNode from "@/components/step/StepNode";
+import { StepNodeProps } from "@/core/StepNode";
 
-interface Props {
-    handleFinishAction: (value: Task) => void;
-}
-
-export default function TaskSetup({ handleFinishAction }: Props) {
+export default function TaskSetup({ handleFinishAction }: StepNodeProps) {
     const [task, setTask] = useState<Task>();
     const [taskOptions, setTaskOptions] = useState<any>([]);
 

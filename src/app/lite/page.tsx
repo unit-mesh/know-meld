@@ -40,15 +40,15 @@ export default function Page() {
             },
             {
                 title: "Context",
-                node: <ContextSetup handleFinishAction={handleContextSetupFinishAction} />
+                node: <ContextSetup historicalContent={context} handleFinishAction={handleContextSetupFinishAction} />
             },
             {
                 title: "Input",
-                node: <ExecutionInputSetup handleFinishAction={handleExecutionInputSetupFinishAction} />
+                node: <ExecutionInputSetup historicalContent={executionInput} handleFinishAction={handleExecutionInputSetupFinishAction} />
             },
             {
                 title: "Execute",
-                node: <LLMExecute task={task} context={context} executionInput={executionInput} handleFinishAction={() => { }} />
+                node: <LLMExecute contentInput={{task, context, executionInput}} handleFinishAction={() => { }} />
             }
         ]
 

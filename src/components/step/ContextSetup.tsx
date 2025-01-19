@@ -2,19 +2,15 @@
 import { useState } from "react";
 import { Input } from "antd";
 import StepNode from "@/components/step/StepNode";
+import { StepNodeProps } from "@/core/StepNode";
 
 const { TextArea } = Input;
 
-interface Props {
-    historicalContent?: string;
-    handleFinishAction: (content: string) => void;
-}
-
-export default function ContextSetup({ historicalContent, handleFinishAction }: Props) {
+export default function ContextSetup({ historicalContent, handleFinishAction }: StepNodeProps) {
     const [content, setContent] = useState(historicalContent || "");
 
     return (
-        <StepNode continueable={!!content} onContinue={() => handleFinishAction(content)}>
+        <StepNode continueable={true} onContinue={() => handleFinishAction(content)}>
             <TextArea
                 autoSize
                 value={content}
