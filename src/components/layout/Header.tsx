@@ -1,12 +1,25 @@
 "use client";
 
-import { Layout, LayoutProps } from "antd";
+import { Button, Drawer, Layout, LayoutProps } from "antd";
 import Link from "next/link";
+import { useState } from "react";
+import AIChat from "../chat/AIChat";
+import { CommentOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 
 export default function AntdHeader(props: LayoutProps & { headerTitle: string }) {
-    const { headerTitle, ...otherProps } = props;
+  const { headerTitle, ...otherProps } = props;
+
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Header
@@ -27,7 +40,11 @@ export default function AntdHeader(props: LayoutProps & { headerTitle: string })
         <Link href="/misc/overview" className="text-white hover:text-gray-300 transition-colors">
           Overview
         </Link>
+        <Button type="link" icon={< CommentOutlined />} onClick={showDrawer}/>
+        <Drawer title="AI Chat" onClose={onClose} open={open}>
+          <AIChat />
+        </Drawer>
       </div>
-    </Header>
+    </Header >
   );
 }
