@@ -13,7 +13,6 @@ export default function TaskSetup({ handleFinishAction }: StepNodeProps) {
         fetch('/api/prompt/tasks')
             .then((res) => res.json())
             .then((data: Task[]) => {
-                console.log("tasks", data)
                 setTasks(data);
             })
     }, []);

@@ -9,13 +9,11 @@ function getFileName(model: string): string {
 
 function getFilePath(model: string): string {
   const fileName = getFileName(model);
-  console.log("fileName", fileName)
   return path.join(dbDataPath, fileName);
 }
 
 export async function readDb<T>(model: string): Promise<T[]> {
   const filePath = getFilePath(model);
-  console.log("filePath", filePath)
   let entries: T[] = [];
   if (fs.existsSync(filePath)) {
     const data = await fs.promises.readFile(filePath, 'utf-8');
