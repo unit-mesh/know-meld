@@ -11,7 +11,7 @@ import {
   ProjectOutlined,
   RocketOutlined,
   DatabaseOutlined,
-  CommentOutlined,
+  FileSyncOutlined,
 } from "@ant-design/icons";
 
 import "./globals.css";
@@ -74,10 +74,10 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    key: "chat",
-    label: "Ask AI",
-    icon: <CommentOutlined/>,
-    routeTo: "/",
+    key: "prompt",
+    label: "Prompt",
+    icon: <FileSyncOutlined />,
+    routeTo: "/prompt",
   }
 ];
 
