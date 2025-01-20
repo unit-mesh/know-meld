@@ -2,25 +2,31 @@
 import { useEffect, useState } from "react";
 import { Select } from "antd";
 import { Task } from '@/core/Task';
-import { tasks } from '@/prompts/Example.task';
 import StepNode from "@/components/step/StepNode";
 import { StepNodeProps } from "@/core/StepNode";
 
 export default function TaskSetup({ handleFinishAction }: StepNodeProps) {
     const [task, setTask] = useState<Task>();
-    const [taskOptions, setTaskOptions] = useState<any>([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
 
     useEffect(() => {
-        const taskOptions = tasks.map((task, index) => {
+        fetch('/api/prompt/tasks')
+            .then((res) => res.json())
+            .then((data: Task[]) => {
+                console.log("tasks", data)
+                setTasks(data);
+            })
+    }, []);
+
+    const convertToTaskOptions = (tasks: Task[]) => {
+        return tasks.map((task, index) => {
             return {
                 value: index,
                 label: task.goal,
             };
         }
         );
-        setTaskOptions(taskOptions);
-
-    }, []);
+    }
 
     const handleTaskChange = (value: string) => {
         const task = tasks[parseInt(value)];
@@ -33,7 +39,7 @@ export default function TaskSetup({ handleFinishAction }: StepNodeProps) {
                 placeholder="Task"
                 style={{ width: "100%" }}
                 onChange={handleTaskChange}
-                options={taskOptions}
+                options={convertToTaskOptions(tasks)}
             />
         </StepNode>
     );

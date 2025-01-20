@@ -11,9 +11,10 @@ export default function DataArchive({ data }: DataArchiveProps) {
 
     function dataToKnowEntry(data: string) {
         return {
+            title: "",
             tags: [],
             content: data,
-            timestamp: Date.now() / 1000,
+            timestamp: Date.now(),
         }
     }
 
@@ -24,7 +25,7 @@ export default function DataArchive({ data }: DataArchiveProps) {
         const formattedTags = tags.length > 0 ? `${tags.map(tag => `#${tag}`).join(' ')}` : '';
 
         // Format timestamp into a human-readable date (optional)
-        const formattedDate = timestamp ? `${new Date(timestamp * 1000).toLocaleString()}` : '';
+        const formattedDate = timestamp ? `${new Date(timestamp).toLocaleString()}` : '';
 
         // Generate markdown content
         const markdown = `
