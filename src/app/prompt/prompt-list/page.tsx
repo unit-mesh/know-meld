@@ -1,5 +1,6 @@
 'use client';
 
+import PromptItem from "@/components/prompt/PromptItem";
 import { Card, Tag } from "antd";
 import { useEffect, useState } from "react";
 
@@ -16,17 +17,7 @@ export default function Page() {
     return (
         <div className="container mx-auto p-4">
             {prompts.map((prompt, index) => (
-                <Card
-                    key={index}
-                    title={prompt.name}
-                >
-                    {prompt.tags.map((tag) => (
-                        <Tag key={tag}>{tag}</Tag>
-                    ))}
-                    <p>
-                        <p>{prompt.content.replace(/\${(.*?)}/g, '________')}</p>
-                    </p>
-                </Card>
+                <PromptItem key={index} prompt={prompt} />
             )
             )}
         </div>
