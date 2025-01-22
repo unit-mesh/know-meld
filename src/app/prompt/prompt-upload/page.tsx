@@ -82,7 +82,9 @@ export default function Page() {
 
             {uploadSuccess && (
                 <div className="mt-4 text-green-600">
-                    <p>File uploaded successfully! Upload more!</p>
+                    <Button type="link" href="/prompt/prompt-list">
+                        Upload succes! Check it out here.
+                    </Button>
                 </div>
             )}
         </div>

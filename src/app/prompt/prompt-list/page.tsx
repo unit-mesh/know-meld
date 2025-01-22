@@ -1,7 +1,6 @@
 'use client';
 
 import PromptItem from "@/components/prompt/PromptItem";
-import { Card, Tag } from "antd";
 import { useEffect, useState } from "react";
 
 
@@ -14,10 +13,15 @@ export default function Page() {
             .then((data) => setPrompts(data));
     }, []);
 
+    function onDelete(name: string) {
+        fetch(`/api/prompt/prompts/${name}`, { method: 'DELETE' })
+            .then(() => setPrompts(prompts.filter(prompt => prompt.name !== name)));
+    }
+
     return (
         <div className="container mx-auto p-4">
             {prompts.map((prompt, index) => (
-                <PromptItem key={index} prompt={prompt} />
+                <PromptItem key={index} prompt={prompt} onDelete={onDelete} />
             )
             )}
         </div>
