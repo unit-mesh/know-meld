@@ -12,6 +12,8 @@ import {
   RocketOutlined,
   DatabaseOutlined,
   FileSyncOutlined,
+  ProfileOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 
 import "./globals.css";
@@ -44,12 +46,12 @@ const menuItems: MenuItem[] = [
   {
     key: "workspace",
     label: "Workspace",
-    icon: <ProjectOutlined/>,
+    icon: <ProjectOutlined />,
     children: [
       {
         key: "/workspace/feature/analysis",
         label: "Feature Analysis",
-        icon: <RocketOutlined/>,
+        icon: <RocketOutlined />,
         routeTo: "/workspace/feature/analysis",
       }
     ],
@@ -57,18 +59,18 @@ const menuItems: MenuItem[] = [
   {
     key: "knowledge",
     label: "Knowledge",
-    icon: <DatabaseOutlined/>,
+    icon: <DatabaseOutlined />,
     children: [
       {
         key: "item-2-sub-1",
         label: "Item 2 Sub 1",
-        icon: <DatabaseOutlined/>,
+        icon: <DatabaseOutlined />,
         routeTo: "/",
       },
       {
         key: "item-2-sub-2",
         label: "Item 2 Sub 2",
-        icon: <DatabaseOutlined/>,
+        icon: <DatabaseOutlined />,
         routeTo: "/",
       },
     ],
@@ -77,7 +79,20 @@ const menuItems: MenuItem[] = [
     key: "prompt",
     label: "Prompt",
     icon: <FileSyncOutlined />,
-    routeTo: "/prompt",
+    children: [
+      {
+        key: "propmt-list",
+        label: "Prompt List",
+        icon: <ProfileOutlined />,
+        routeTo: "/prompt/prompt-list",
+      },
+      {
+        key: "propmt-upload",
+        label: "Prompt Upload",
+        icon: <UploadOutlined />,
+        routeTo: "/prompt/prompt-upload",
+      },
+    ],
   }
 ];
 
@@ -88,29 +103,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <body
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-    >
-    <AntdRegistry>
-      <Layout style={{height: "100vh", display: "flex", flexDirection: "column"}}>
-        <Header style={{display: "flex", alignItems: "center"}} headerTitle={headerTitle}/>
-        <Layout style={{flex: 1, display: "flex", flexDirection: "row", overflow: "hidden"}}>
-          <Sider width={240} style={{overflow: "auto"}} menuItems={menuItems}/>
-          <Layout
-            style={{display: "flex", flexDirection: "column", flex: 1, overflow: "auto"}}>
-            <Content
-              style={{
-                margin: 0,
-                minHeight: 280,
-              }}
-            >
-              {children}
-            </Content>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <AntdRegistry>
+          <Layout style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+            <Header style={{ display: "flex", alignItems: "center" }} headerTitle={headerTitle} />
+            <Layout style={{ flex: 1, display: "flex", flexDirection: "row", overflow: "hidden" }}>
+              <Sider width={240} style={{ overflow: "auto" }} menuItems={menuItems} />
+              <Layout
+                style={{ display: "flex", flexDirection: "column", flex: 1, overflow: "auto" }}>
+                <Content
+                  style={{
+                    margin: 0,
+                    minHeight: 280,
+                  }}
+                >
+                  {children}
+                </Content>
+              </Layout>
+            </Layout>
           </Layout>
-        </Layout>
-      </Layout>
-    </AntdRegistry>
-    </body>
+        </AntdRegistry>
+      </body>
     </html>
   );
 }
