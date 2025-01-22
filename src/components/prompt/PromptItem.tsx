@@ -1,9 +1,7 @@
-'use client';
-
-import { Card, Tag, Typography, Button } from "antd";
-import { useEffect, useState } from "react";
+import { Card, Tag, Button } from "antd";
 import DataExport from "../converter/DataExport";
 import { DeleteOutlined } from '@ant-design/icons';
+import TextView from "../dataview/TextView";
 
 
 interface Props {
@@ -12,8 +10,6 @@ interface Props {
 }
 
 export default function PromptItem({ prompt, onDelete }: Props) {
-    const [expanded, setExpanded] = useState(false);
-
     function parseToMarkdownContent(tags: string[], content: string) {
         const formattedTags = tags.length > 0 ? `${tags.map(tag => `#${tag}`).join(' ')}\n` : '';
         return `${formattedTags}${content}`;
@@ -34,18 +30,7 @@ export default function PromptItem({ prompt, onDelete }: Props) {
                     <Tag key={tag}>{tag}</Tag>
                 ))}
                 <p>
-                    <Typography.Paragraph
-                        ellipsis={{
-                            rows: 2,
-                            expandable: 'collapsible',
-                            symbol: ((expanded: boolean) => expanded ? 'Hide' : 'Show') as any,
-                            expanded,
-                            onExpand: (_, info) => setExpanded(info.expanded),
-                        }}
-                        copyable
-                    >
-                        {prompt.content.replace(/\${(.*?)}/g, '____')}
-                    </Typography.Paragraph>
+                    <TextView text={prompt.content.replace(/\${(.*?)}/g, '____')} rows={2} copyable={true}/>
                 </p>
             </Card>
         </div>

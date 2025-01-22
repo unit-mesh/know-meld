@@ -1,10 +1,8 @@
 
 import { useState } from "react";
-import { Input } from "antd";
 import StepNode from "@/components/step/StepNode";
 import { StepNodeProps } from "@/core/StepNode";
-
-const { TextArea } = Input;
+import TextView from "../dataview/TextView";
 
 export default function ContextSetup({ historicalContent, handleFinishAction }: StepNodeProps) {
     const [content, setContent] = useState(historicalContent || "");
@@ -15,13 +13,7 @@ export default function ContextSetup({ historicalContent, handleFinishAction }: 
             continueable={true}
             onContinue={() => handleFinishAction(content)}
         >
-            <TextArea
-                autoSize
-                value={content}
-                onChange={(e) => {
-                    setContent(e.target.value);
-                }}
-            />
+            <TextView text={content} rows={1} onEdit={(text) => setContent(text)} />
         </StepNode>
     );
 }
