@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { DownloadOutlined } from '@ant-design/icons';
 import { saveAs } from 'file-saver';
 
 interface DataExportProps {
@@ -30,8 +30,8 @@ const DataExport: React.FC<DataExportProps> = ({ data }) => {
 
   return (
     <Dropdown overlay={menu}>
-      <Button>
-        Export <DownOutlined />
+      <Button type="link">
+        <DownloadOutlined />
       </Button>
     </Dropdown>
   );

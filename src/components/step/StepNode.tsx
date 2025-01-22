@@ -1,8 +1,8 @@
 import { Button, Card, Space } from "antd";
 import { ReactNode } from "react";
-import DocUpload from "./DocUpload";
-import DataExport from "./DataExport";
-import DataArchive from "./DataArchive";
+import DocUpload from "../converter/DocUpload";
+import DataExport from "../converter/DataExport";
+import DataArchive from "../converter/DataArchive";
 
 export default function StepNode({ children, handleDocUploadAction, continueable, onContinue, archiveData, exportData }: { children: ReactNode, handleDocUploadAction?: (value: string) => void, continueable?: boolean, onContinue?: () => void, archiveData?: string, exportData?: string }) {
 
