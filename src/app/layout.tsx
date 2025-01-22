@@ -44,6 +44,25 @@ const menuItems: MenuItem[] = [
     routeTo: "/lite",
   },
   {
+    key: "prompt",
+    label: "Prompt",
+    icon: <FileSyncOutlined />,
+    children: [
+      {
+        key: "propmt-list",
+        label: "Prompt List",
+        icon: <ProfileOutlined />,
+        routeTo: "/prompt/prompt-list",
+      },
+      {
+        key: "propmt-upload",
+        label: "Prompt Upload",
+        icon: <UploadOutlined />,
+        routeTo: "/prompt/prompt-upload",
+      },
+    ],
+  },
+  {
     key: "workspace",
     label: "Workspace",
     icon: <ProjectOutlined />,
@@ -75,25 +94,6 @@ const menuItems: MenuItem[] = [
       },
     ],
   },
-  {
-    key: "prompt",
-    label: "Prompt",
-    icon: <FileSyncOutlined />,
-    children: [
-      {
-        key: "propmt-list",
-        label: "Prompt List",
-        icon: <ProfileOutlined />,
-        routeTo: "/prompt/prompt-list",
-      },
-      {
-        key: "propmt-upload",
-        label: "Prompt Upload",
-        icon: <UploadOutlined />,
-        routeTo: "/prompt/prompt-upload",
-      },
-    ],
-  }
 ];
 
 export default function RootLayout({
