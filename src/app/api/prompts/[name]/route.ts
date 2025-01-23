@@ -5,9 +5,8 @@ import { parseMarkdown } from "@/utils/markdownParser";
 
 const PROMPT_DIR = path.join(process.cwd(), 'data/prompts');
 
-export async function GET(request: Request, { name }: { name: string }) {
-  const filePath = path.join(PROMPT_DIR, `${name}.md`);
-
+export async function GET(request: Request, { params }: { params: { name: string } }) {
+  const filePath = path.join(PROMPT_DIR, `${params.name}.md`);
   if (!fs.existsSync(filePath)) {
     return new NextResponse(null, { status: 404 });
   }

@@ -72,7 +72,13 @@ const menuItems: MenuItem[] = [
         label: "Feature Analysis",
         icon: <RocketOutlined />,
         routeTo: "/workspace/feature/analysis",
-      }
+      },
+      {
+        key: "/workspace/requirement/refinement",
+        label: "Requirement Refinement",
+        icon: <RocketOutlined />,
+        routeTo: "/workspace/requirement/refinement",
+      },
     ],
   },
   {
