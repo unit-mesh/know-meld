@@ -32,7 +32,7 @@ export default function Page() {
     };
 
     const handleSubmit = async () => {
-        const res = await fetch('/api/prompt/prompts', {
+        const res = await fetch('/api/prompts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, content }),

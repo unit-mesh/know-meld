@@ -9,7 +9,7 @@ export default function Page() {
     const [searchQuery, setSearchQuery] = useState<string>('');
 
     useEffect(() => {
-        fetch('/api/prompt/prompts')
+        fetch('/api/prompts')
             .then((res) => {
                 if (!res.ok) {
                     throw new Error('Network response was not ok');
@@ -21,7 +21,7 @@ export default function Page() {
     }, []);
 
     function onDelete(name: string) {
-        fetch(`/api/prompt/prompts/${name}`, { method: 'DELETE' })
+        fetch(`/api/prompts/${name}`, { method: 'DELETE' })
             .then((res) => {
                 if (!res.ok) {
                     throw new Error('Network response was not ok');

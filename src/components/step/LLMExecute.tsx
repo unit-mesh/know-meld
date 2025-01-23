@@ -1,30 +1,32 @@
-
-import { useState } from "react";
-import ExamplePrompt from "@/prompts/Example.prompt"
+import { useEffect, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { markdown } from "@codemirror/lang-markdown";
 import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/StreamingMarkdownCodeBlock";
 import { Button } from "antd";
 import StepNode from "@/components/step/StepNode";
 import { StepNodeProps } from "@/core/StepNode";
+import TextView from "../dataview/TextView";
 
 export default function LLMExecute({ contentInput }: StepNodeProps) {
     const [exceptionOutput, setExceptionOutput] = useState("");
     const [exceptionDone, setExceptionDone] = useState<boolean>(true);
+    const [assembledPrompt, setAssembledPrompt] = useState("");
+
+    useEffect(() => {
+        const assembledPrompt = `${contentInput.prompt}\n${contentInput.context}\n${contentInput.executionInput}`
+        console.log('assembledPrompt', assembledPrompt)
+        setAssembledPrompt(assembledPrompt);
+    }, [contentInput]);
 
     const executeTask = async () => {
         setExceptionOutput("")
         setExceptionDone(false);
 
-        const { task, context, executionInput } = contentInput;
-
-        const prompt = ExamplePrompt(task, context, executionInput)
-
         const response: Response = await fetch("/api/llm/glm", {
             method: "POST",
             headers: { Accept: "text/event-stream" },
             body: JSON.stringify({
-                content: prompt
+                content: assembledPrompt
             }),
         });
 
@@ -50,9 +52,14 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
         setExceptionDone(true);
     };
 
+    const handleAssembledPromptEidt = (value: string) => {
+        setAssembledPrompt(value);
+    };
+
     return (
         <StepNode archiveData={exceptionOutput} exportData={exceptionOutput}>
             <div className="mb-4">
+                <TextView text={assembledPrompt} rows={1} copyable={true} onEdit={handleAssembledPromptEidt} />
                 <Button
                     disabled={!exceptionDone}
                     onClick={executeTask}

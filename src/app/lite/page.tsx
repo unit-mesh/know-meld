@@ -2,9 +2,8 @@
 
 import ContextSetup from '@/components/step/ContextSetup';
 import WorkNode from '@/components/workflow/WorkNode';
-import TaskSetup from '@/components/step/TaskSetup';
+import PromptSetup from '@/components/step/PromptSetup';
 import { useState } from 'react';
-import { Task } from '@/core/Task';
 import LLMExecute from '@/components/step/LLMExecute';
 import { Steps } from 'antd';
 import ExecutionInputSetup from '@/components/step/ExecutionInputSetup';
@@ -12,12 +11,12 @@ import ExecutionInputSetup from '@/components/step/ExecutionInputSetup';
 
 export default function Page() {
     const [currentStep, setCurrentStep] = useState(0);
-    const [task, setTask] = useState<Task>({ goal: "" });
+    const [prompt, setPrompt] = useState<Prompt>();
     const [context, setContext] = useState("");
     const [executionInput, setExecutionInput] = useState("")
 
-    function handleTaskSetupFinishAction(value: Task): void {
-        setTask(value);
+    function handlePromptSetupFinishAction(value: Prompt): void {
+        setPrompt(value);
         setCurrentStep(1);
     }
 
@@ -35,8 +34,8 @@ export default function Page() {
     function convertToStepItems(currentStage: number) {
         const stepItems = [
             {
-                title: "Task",
-                node: <TaskSetup handleFinishAction={handleTaskSetupFinishAction} />
+                title: "Prompt",
+                node: <PromptSetup handleFinishAction={handlePromptSetupFinishAction} />
             },
             {
                 title: "Context",
@@ -48,7 +47,7 @@ export default function Page() {
             },
             {
                 title: "Execute",
-                node: <LLMExecute contentInput={{task, context, executionInput}} handleFinishAction={() => { }} />
+                node: <LLMExecute contentInput={{prompt, context, executionInput}} handleFinishAction={() => { }} />
             }
         ]
 

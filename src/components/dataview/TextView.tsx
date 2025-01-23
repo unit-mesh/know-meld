@@ -30,7 +30,7 @@ export default function TextView({ text, rows, copyable, onEdit }: Props) {
             copyable={copyable}
             style={{ whiteSpace: 'pre-wrap' }}
         >
-            {text.trim()}
+            {text?.trim()}
         </Typography.Paragraph>
     );
 }
