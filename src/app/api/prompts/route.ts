@@ -14,12 +14,14 @@ export async function POST(request: Request) {
 
 export async function GET() {
     const files = fs.readdirSync(PROMPT_DIR);
-    const prompts: Prompt[] = files.map((file) => {
-        const filePath = path.join(PROMPT_DIR, file);
-        const parsed = parseMarkdown(filePath);
-        return {
-            ...parsed
-        };
-    });
+    const prompts: Prompt[] = files
+        .map((file) => {
+            const filePath = path.join(PROMPT_DIR, file);
+            const parsed = parseMarkdown(filePath);
+            return {
+                ...parsed
+            };
+        })
+        .filter(prompt => !prompt.name.startsWith('_'));
     return NextResponse.json(prompts);
 }

@@ -9,7 +9,7 @@ export default function ContextSetup({ historicalContent, handleFinishAction }: 
 
     return (
         <StepNode
-            handleDocUploadAction={(value) => setContent(value)}
+            handleDocUploadAction={(name, content) => setContent(content)}
             continueable={true}
             onContinue={() => handleFinishAction(content)}
         >

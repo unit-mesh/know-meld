@@ -1,8 +1,21 @@
 import { NextResponse } from "next/server";
 import fs from 'fs';
 import path from 'path';
+import { parseMarkdown } from "@/utils/markdownParser";
 
 const PROMPT_DIR = path.join(process.cwd(), 'data/prompts');
+
+export async function GET(request: Request, { name }: { name: string }) {
+  const filePath = path.join(PROMPT_DIR, `${name}.md`);
+
+  if (!fs.existsSync(filePath)) {
+    return new NextResponse(null, { status: 404 });
+  }
+
+  const parsed = parseMarkdown(filePath);
+  return NextResponse.json(parsed);
+
+}
 
 export async function DELETE(request: Request, { name }: { name: string }) {
   const filePath = path.join(PROMPT_DIR, `${name}.md`);
@@ -13,4 +26,3 @@ export async function DELETE(request: Request, { name }: { name: string }) {
 
   return new NextResponse(null, { status: 204 });
 }
-

@@ -4,7 +4,7 @@ import DocUpload from "../converter/DocUpload";
 import DataExport from "../converter/DataExport";
 import DataArchive from "../converter/DataArchive";
 
-export default function StepNode({ children, handleDocUploadAction, continueable, onContinue, archiveData, exportData }: { children: ReactNode, handleDocUploadAction?: (value: string) => void, continueable?: boolean, onContinue?: () => void, archiveData?: string, exportData?: string }) {
+export default function StepNode({ children, handleDocUploadAction, continueable, onContinue, archiveData, exportData }: { children: ReactNode, handleDocUploadAction?: (name: string, content: string) => void, continueable?: boolean, onContinue?: () => void, archiveData?: string, exportData?: string }) {
 
     function extraRander() {
         if (archiveData && exportData) {

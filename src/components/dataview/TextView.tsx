@@ -6,13 +6,14 @@ import { FileOutlined, FileTextOutlined } from '@ant-design/icons';
 
 interface Props {
     text: string,
-    rows: number,
+    rows?: number,
+    defaultExpanded?: boolean,
     copyable?: boolean,
     onEdit?: (value: string) => void,
 }
 
-export default function TextView({ text, rows, copyable, onEdit }: Props) {
-    const [expanded, setExpanded] = useState(false);
+export default function TextView({ text, rows, defaultExpanded, copyable, onEdit }: Props) {
+    const [expanded, setExpanded] = useState(defaultExpanded);
 
     return (
         <Typography.Paragraph

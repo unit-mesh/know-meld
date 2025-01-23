@@ -1,34 +1,18 @@
 'use client'
 
 import { useState } from 'react';
-import { Upload, Button, Input, message, Space, UploadProps } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
-import { removeFileExtension } from '@/utils/fileUtil';
-
-const { Dragger } = Upload;
+import { Button, Input, message } from 'antd';
+import TextView from '@/components/dataview/TextView';
+import DocUpload from '@/components/converter/DocUpload';
 
 export default function Page() {
     const [name, setName] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
 
-    const handleUpload: UploadProps["customRequest"] = async (options) => {
-        const { onSuccess, onError, file } = options;
-
-        handleFileUpload(file as File);
-        onSuccess?.({}, file);
-        setUploadSuccess(false);
-    };
-
-    const handleFileUpload = (file: File) => {
-        const name = removeFileExtension(file.name)
+    const handleFileUpload = (name: string, content: string) => {
         setName(name);
-
-        const reader = new FileReader();
-        reader.onload = (e) => setContent(e.target?.result as string);
-        reader.readAsText(file);
-
-        return false;
+        setContent(content);
     };
 
     const handleSubmit = async () => {
@@ -45,30 +29,46 @@ export default function Page() {
         }
 
         setName('');
+        setContent('');
         setUploadSuccess(true);
+    };
+
+    const handleEdit = (value: string) => {
+        setContent(value);
+    };
+
+    const handleExample = () => {
+        fetch('/api/prompts/example')
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setContent(data.content);
+            })
+            .catch((error) => console.error('Fetch error:', error));
+
     };
 
     return (
         <div className="flex flex-col items-center p-4">
-            <Dragger
-                className="w-full h-64"
-                customRequest={handleUpload}
-                maxCount={1}
-                accept=".md,.txt,.text"
-            >
-                <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">Drag file here or click to upload</p>
-                <p className="ant-upload-hint">Supports .md, .txt, .text files</p>
-            </Dragger>
 
-            <div className="w-full sm:w-1/2 mt-8">
+            <div className="w-full sm:w-3/4 mt-8 flex space-x-4">
                 <Input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Name"
+                    className="flex-1"
                 />
+
+                <DocUpload handleDocUploadAction={handleFileUpload} />
+                <Button onClick={handleExample} className="flex-none">Example</Button>
+            </div>
+
+            <div className="w-full mt-8 bg-white p-4 rounded">
+                <TextView text={content} defaultExpanded={true} copyable={true} onEdit={handleEdit} />
             </div>
 
             <Button

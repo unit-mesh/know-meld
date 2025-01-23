@@ -2,9 +2,10 @@ import { Upload, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import mammoth from 'mammoth';
 import { UploadRequestFile } from 'rc-upload/lib/interface';
+import { removeFileExtension } from '@/utils/fileUtil';
 
 interface Props {
-  handleDocUploadAction: (value: string) => void;
+  handleDocUploadAction: (name: string, content: string) => void;
 }
 
 export default function DocUpload({ handleDocUploadAction }: Props) {
@@ -14,6 +15,7 @@ export default function DocUpload({ handleDocUploadAction }: Props) {
 
       // 根据文件类型判断如何处理
       const fileType = (file as File).name.split('.').pop()?.toLowerCase();
+      const fileName = removeFileExtension((file as File).name);
 
       reader.onload = () => {
         const result = reader.result;
@@ -21,7 +23,7 @@ export default function DocUpload({ handleDocUploadAction }: Props) {
           // 处理 docx 文件
           mammoth.extractRawText({ arrayBuffer: result })
             .then((mammothResult) => {
-              handleDocUploadAction(mammothResult.value);
+              handleDocUploadAction(fileName, mammothResult.value);
               resolve();
             })
             .catch((error) => {
@@ -31,7 +33,7 @@ export default function DocUpload({ handleDocUploadAction }: Props) {
         } else if (fileType === 'md' || fileType === 'txt' || fileType === 'text') {
           // 处理 md 或 txt 文件
           if (typeof result === 'string') {
-            handleDocUploadAction(result);
+            handleDocUploadAction(fileName, result);
             resolve();
           } else {
             reject(new Error('Failed to read the file as text.'));
