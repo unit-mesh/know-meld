@@ -14,8 +14,6 @@ interface Props {
 export default function TextView({ text, rows, copyable, onEdit }: Props) {
     const [expanded, setExpanded] = useState(false);
 
-
-
     return (
         <Typography.Paragraph
             ellipsis={{
@@ -30,8 +28,9 @@ export default function TextView({ text, rows, copyable, onEdit }: Props) {
                 text: text,
             }}
             copyable={copyable}
+            style={{ whiteSpace: 'pre-wrap' }}
         >
-            {text}
+            {text.trim()}
         </Typography.Paragraph>
     );
 }
