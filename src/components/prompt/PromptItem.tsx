@@ -22,7 +22,7 @@ export default function PromptItem({ prompt, onDelete }: Props) {
                 extra={
                     <>
                         <DataExport data={parseToMarkdownContent(prompt.tags, prompt.content)} />
-                        <Button type="link" onClick={() => onDelete(prompt.name)}><DeleteOutlined /></Button> {/* Add delete button */}
+                        <Button type="link" onClick={() => onDelete(prompt.name)}><DeleteOutlined /></Button> 
                     </>
                 }
             >

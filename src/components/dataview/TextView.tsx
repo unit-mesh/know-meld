@@ -25,7 +25,7 @@ export default function TextView({ text, rows, copyable, onEdit }: Props) {
                 expanded,
                 onExpand: (_, info) => setExpanded(info.expanded),
             }}
-            editable={{
+            editable={onEdit && {
                 onChange: onEdit,
                 text: text,
             }}
