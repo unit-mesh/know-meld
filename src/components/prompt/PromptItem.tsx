@@ -18,7 +18,14 @@ export default function PromptItem({ prompt, onDelete }: Props) {
     return (
         <div className="mx-auto p-4">
             <Card
-                title={prompt.name}
+                title={
+                    <>
+                        {prompt.name}
+                        {prompt.tags.map((tag) => (
+                            <Tag key={tag} style={{ marginLeft: 8 }}>{tag}</Tag>
+                        ))}
+                    </>
+                }
                 extra={
                     <>
                         <DataExport data={parseToMarkdownContent(prompt.tags, prompt.content)} />
@@ -26,9 +33,6 @@ export default function PromptItem({ prompt, onDelete }: Props) {
                     </>
                 }
             >
-                {prompt.tags.map((tag) => (
-                    <Tag key={tag}>{tag}</Tag>
-                ))}
                 <p>
                     <TextView text={prompt.content.replace(/\${(.*?)}/g, '____')} rows={2} copyable={true}/>
                 </p>
