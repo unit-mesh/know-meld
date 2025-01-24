@@ -1,19 +1,17 @@
 import { Button, Card, Space } from "antd";
 import { ReactNode } from "react";
-import DocUpload from "../converter/DocUpload";
 import DataExport from "../converter/DataExport";
 import DataArchive from "../converter/DataArchive";
 
 interface StepNodeProps {
     children: ReactNode;
-    handleDocUploadAction?: (name: string, content: string) => void;
     continueable?: boolean;
     onContinue?: () => void;
     archiveData?: string;
     exportData?: string;
 }
 
-export default function StepNode({ children, handleDocUploadAction, continueable, onContinue, archiveData, exportData }: StepNodeProps) {
+export default function StepNode({ children, continueable, onContinue, archiveData, exportData }: StepNodeProps) {
 
     function extraRander() {
         if (archiveData && exportData) {
@@ -32,12 +30,6 @@ export default function StepNode({ children, handleDocUploadAction, continueable
     return (
         <Card extra={extraRander()}>
             <div className="w-full mx-auto justify-between">
-                {
-                    handleDocUploadAction &&
-                    <div className="mb-4">
-                        <DocUpload handleDocUploadAction={handleDocUploadAction} />
-                    </div>
-                }
                 {children}
                 {
                     continueable !== undefined &&
