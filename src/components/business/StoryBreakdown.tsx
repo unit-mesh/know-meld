@@ -19,27 +19,29 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
     const [requirementsContent, setRequirementsContent] = useState("");
     const [assembledPrompt, setAssembledPrompt] = useState("");
 
-    const handleRequirementInputFinishAction = (value: string): void => {
-        setRequirementsContent(value);
-        setAssembledPrompt(assemblePrompt(value));
-        setCurrentStep(1);
-    }
-
-    const assemblePrompt = (value: string): string => {
-        let filledContent = "";
-        fetch('/api/prompts/_GenerateFeatureUserStory')
-            .then((res) => {
+    const assemblePrompt = (value: string): Promise<string> => {
+        return fetch('/api/prompts/_GenerateFeatureUserStory')
+            .then(res => {
                 if (!res.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return res.json();
             })
-            .then((data) => {
+            .then(data => {
                 const content = data.content;
-                filledContent = content.replace('${requirementContent}', value || "");
+                return content.replace('${requirementContent}', value || "");
             })
-            .catch((error) => console.error('Fetch error:', error));
-        return filledContent;
+            .catch(error => {
+                console.error('Fetch error:', error);
+                return "";
+            });
+    }
+
+    const handleRequirementInputFinishAction = async (value: string): Promise<void> => {
+        setRequirementsContent(value);
+        const prompt = await assemblePrompt(value);
+        setAssembledPrompt(prompt);
+        setCurrentStep(1);
     }
 
     const stepList = [
@@ -50,7 +52,7 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
         },
         {
             title: "LLM Execute",
-            node: <div>LLM Execute</div>
+            node: <LLMExecute contentInput={{ prompt: assembledPrompt }} handleFinishAction={handleFinishAction} />
         }
     ]
 
