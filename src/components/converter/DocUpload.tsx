@@ -68,7 +68,7 @@ export default function DocUpload({ handleDocUploadAction }: Props) {
       maxCount={1}
       showUploadList={false}
     >
-      <Button icon={<UploadOutlined />}>Upload</Button>
+      <Button type='link'><UploadOutlined /></Button>
     </Upload>
   );
 };

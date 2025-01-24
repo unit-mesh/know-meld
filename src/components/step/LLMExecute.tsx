@@ -5,7 +5,7 @@ import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/Streaming
 import { Button } from "antd";
 import StepNode from "@/components/step/StepNode";
 import { StepNodeProps } from "@/core/StepNode";
-import TextView from "../dataview/TextView";
+import MarkdownViewer from "../dataview/MarkdownViewer";
 
 export default function LLMExecute({ contentInput }: StepNodeProps) {
     const [exceptionOutput, setExceptionOutput] = useState("");
@@ -59,7 +59,7 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
     return (
         <StepNode archiveData={exceptionOutput} exportData={exceptionOutput}>
             <div className="mb-4">
-                <TextView text={assembledPrompt} rows={1} copyable={true} onEdit={handleAssembledPromptEidt} />
+                <MarkdownViewer content={assembledPrompt} onContentChange={handleAssembledPromptEidt} />
                 <Button
                     disabled={!exceptionDone}
                     onClick={executeTask}

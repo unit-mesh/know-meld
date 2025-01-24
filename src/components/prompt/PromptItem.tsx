@@ -1,8 +1,7 @@
 import { Card, Tag, Button } from "antd";
 import DataExport from "../converter/DataExport";
 import { DeleteOutlined } from '@ant-design/icons';
-import TextView from "../dataview/TextView";
-
+import MarkdownViewer from "../dataview/MarkdownViewer";
 
 interface Props {
     prompt: Prompt;
@@ -34,7 +33,7 @@ export default function PromptItem({ prompt, onDelete }: Props) {
                 }
             >
                 <p>
-                    <TextView text={prompt.content.replace(/\${(.*?)}/g, '____')} rows={2} copyable={true}/>
+                    <MarkdownViewer content={prompt.content} />                    
                 </p>
             </Card>
         </div>

@@ -81,7 +81,7 @@ const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ content, onContentChang
             ) : (
                 <Paragraph
                     ellipsis={isCollapsed ? { rows: 2, expandable: false } : false}
-                    style={{ marginTop: 8, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                    style={{ marginTop: 16, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                 >
                     <ReactMarkdown>{markdown}</ReactMarkdown>
                 </Paragraph>

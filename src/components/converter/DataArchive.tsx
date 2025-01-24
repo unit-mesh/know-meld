@@ -50,8 +50,8 @@ ${formattedDate}
 
 
     return (
-        <Button onClick={onClick}>
-            Archive <DatabaseOutlined />
+        <Button onClick={onClick} type='link'>
+            <DatabaseOutlined />
         </Button>
     );
 };

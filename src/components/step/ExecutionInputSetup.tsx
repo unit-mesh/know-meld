@@ -12,10 +12,8 @@ export default function ExecutionInputSetup({ historicalContent, handleFinishAct
         <StepNode
             continueable={true}
             onContinue={() => handleFinishAction(content)}
+            handleUpload={(name, content) => setContent(content)}
         >
-            <div className="mb-4">
-                <DocUpload handleDocUploadAction={(name, content) => setContent(content)} />
-            </div>
             <MarkdownViewer content={content} onContentChange={(newContent) => setContent(newContent)} />
         </StepNode>
     );
