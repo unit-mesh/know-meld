@@ -9,6 +9,8 @@ import StepProcess from "../step/StepProcess";
 import FeatureUserStoryList from "../dataview/FeatureUserStoryList";
 import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/StreamingMarkdownCodeBlock";
 import StepNode from "../step/StepNode";
+import { Feature } from "@/app/genify.type";
+import { yamlToFeatureStories } from "@/utils/YamlToObject";
 
 // steps:
 // - (user) 'input' {requirement-content} by doc-or-text
@@ -21,6 +23,7 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
     const [generateFeatureUserStoryPrompt, setGenerateFeatureUserStoryPrompt] = useState("");
     const [requirementsContent, setRequirementsContent] = useState("");
     const [executeResult, setExecuteResult] = useState("");
+    const [FeatureStoryList, setFeatureStoryList] = useState<Feature[]>([]);
 
     useEffect(() => {
         fetch('/api/prompts/_GenerateFeatureUserStory')
@@ -47,6 +50,9 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
 
     const handleLLMExecuteFinishAction = async (value: string): Promise<void> => {
         setExecuteResult(value);
+        const codeblock = StreamingMarkdownCodeBlock.parse(executeResult).text;
+        const featureStories = yamlToFeatureStories(codeblock);
+        setFeatureStoryList(featureStories);
         setCurrentStep(2);
     }
 
@@ -63,8 +69,8 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
         {
             title: "Feature User Story",
             node:
-                <StepNode archiveData={executeResult} >
-                    <FeatureUserStoryList contentInput={StreamingMarkdownCodeBlock.parse(executeResult).text} handleFinishAction={() => { }} />
+                <StepNode archiveData={JSON.stringify(FeatureStoryList)}>
+                    <FeatureUserStoryList contentInput={FeatureStoryList} handleFinishAction={() => { }} />
                 </StepNode>
 
         }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Checkbox, Collapse, List, Radio, message } from "antd";
+import { Button, Checkbox, Collapse, List, Radio, message } from "antd";
 import { RightOutlined } from "@ant-design/icons";
-import { yamlToFeatureStories } from "@/utils/YamlToObject";
 import { Feature, Story } from "@/app/genify.type";
 import { WorkNodeProps } from "@/core/WorkNode";
 
@@ -10,17 +9,14 @@ const { Panel } = Collapse;
 export default function FeatureUserStoryList({ contentInput, handleFinishAction }: WorkNodeProps) {
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
   const [selectedStories, setSelectedStories] = useState<Set<string>>(new Set());
-  const [genFeatrueStoryDone, setGenFeatrueStoryDone] = useState<boolean>(true);
   const [FeatureStoryList, setFeatureStoryList] = useState<Feature[]>([]);
 
   useEffect(() => {
-    const featureStories = yamlToFeatureStories(contentInput);
+    const featureStories = contentInput;
     if (featureStories) {
       setFeatureStoryList(featureStories);
-      setGenFeatrueStoryDone(true);
     } else {
       message.error("Invalid YAML format");
-      setGenFeatrueStoryDone(false);
     }
   }, [contentInput]);
 
@@ -120,7 +116,7 @@ export default function FeatureUserStoryList({ contentInput, handleFinishAction 
         )}
       />
     )}
-    <Button onClick={returnSelectedStories} disabled={!genFeatrueStoryDone || selectedStories.size == 0} type="primary">
+    <Button onClick={returnSelectedStories} disabled={selectedStories.size == 0} type="primary">
       {"Generate AC"}
     </Button>
   </div>

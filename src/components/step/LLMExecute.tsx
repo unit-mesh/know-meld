@@ -54,7 +54,7 @@ export default function LLMExecute({ contentInput, handleFinishAction }: StepNod
         <StepNode
             archiveData={exceptionOutput}
             exportData={exceptionOutput}
-            continueable={!!exceptionOutput}
+            continueable={!!exceptionOutput && exceptionDone}
             onContinue={handleFinishAction && (() => handleFinishAction(exceptionOutput))}
         >
             <div className="mb-4">
