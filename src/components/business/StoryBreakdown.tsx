@@ -3,9 +3,12 @@
 import { WorkNodeProps } from "@/core/WorkNode";
 import WorkNode from "../workflow/WorkNode";
 import ExecutionInputSetup from "../step/ExecutionInputSetup";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LLMExecute from "../step/LLMExecute";
 import StepProcess from "../step/StepProcess";
+import FeatureUserStoryList from "../dataview/FeatureUserStoryList";
+import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/StreamingMarkdownCodeBlock";
+import StepNode from "../step/StepNode";
 
 // steps:
 // - (user) 'input' {requirement-content} by doc-or-text
@@ -17,6 +20,7 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
     const [currentStep, setCurrentStep] = useState(0);
     const [generateFeatureUserStoryPrompt, setGenerateFeatureUserStoryPrompt] = useState("");
     const [requirementsContent, setRequirementsContent] = useState("");
+    const [executeResult, setExecuteResult] = useState("");
 
     useEffect(() => {
         fetch('/api/prompts/_GenerateFeatureUserStory')
@@ -34,11 +38,16 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
                 console.error('Fetch error:', error);
                 return "";
             });
-    } , []);
+    }, []);
 
     const handleRequirementInputFinishAction = async (value: string): Promise<void> => {
         setRequirementsContent(value);
         setCurrentStep(1);
+    }
+
+    const handleLLMExecuteFinishAction = async (value: string): Promise<void> => {
+        setExecuteResult(value);
+        setCurrentStep(2);
     }
 
     const stepList = [
@@ -49,7 +58,15 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
         },
         {
             title: "LLM Execute",
-            node: <LLMExecute contentInput={{prompt: generateFeatureUserStoryPrompt, executionInput: requirementsContent}} handleFinishAction={handleFinishAction} />
+            node: <LLMExecute contentInput={{ prompt: generateFeatureUserStoryPrompt, executionInput: requirementsContent }} handleFinishAction={handleLLMExecuteFinishAction} />
+        },
+        {
+            title: "Feature User Story",
+            node:
+                <StepNode archiveData={executeResult} >
+                    <FeatureUserStoryList contentInput={StreamingMarkdownCodeBlock.parse(executeResult).text} handleFinishAction={() => { }} />
+                </StepNode>
+
         }
     ]
 

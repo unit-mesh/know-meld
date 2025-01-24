@@ -32,7 +32,7 @@ export default function StepNode({ children, continueable, onContinue, handleUpl
             <div className="w-full mx-auto justify-between">
                 {children}
                 {
-                    continueable !== undefined &&
+                    onContinue &&
                     <div className="mt-4">
                         <Button type="primary"
                             disabled={!continueable}

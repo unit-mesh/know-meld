@@ -4,7 +4,7 @@ import StepNode from "@/components/step/StepNode";
 import { StepNodeProps } from "@/core/StepNode";
 import TextViewer from "../dataview/TextViewer";
 
-export default function LLMExecute({ contentInput }: StepNodeProps) {
+export default function LLMExecute({ contentInput, handleFinishAction }: StepNodeProps) {
     const [exceptionOutput, setExceptionOutput] = useState("");
     const [exceptionDone, setExceptionDone] = useState<boolean>(true);
     const [assembledPrompt, setAssembledPrompt] = useState("");
@@ -51,7 +51,12 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
     };
 
     return (
-        <StepNode archiveData={exceptionOutput} exportData={exceptionOutput}>
+        <StepNode
+            archiveData={exceptionOutput}
+            exportData={exceptionOutput}
+            continueable={!!exceptionOutput}
+            onContinue={handleFinishAction && (() => handleFinishAction(exceptionOutput))}
+        >
             <div className="mb-4">
                 <TextViewer content={assembledPrompt} onContentChange={handleAssembledPromptEidt} />
                 <Button
@@ -63,7 +68,7 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
                     {"Excute"}
                 </Button>
             </div>
-            <TextViewer content={exceptionOutput} defaultMarkdownViewMode={false}/>
+            <TextViewer content={exceptionOutput} defaultMarkdownViewMode={false} />
         </StepNode>
     );
 }
