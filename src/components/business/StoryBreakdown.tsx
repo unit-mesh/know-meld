@@ -56,6 +56,16 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
         setCurrentStep(2);
     }
 
+    const convertToKownEntries = (): KnowEntry[] => {
+        return FeatureStoryList.map(f => {
+            return {
+                title: `feature.${f.feature}`,
+                content: f.stories.map(s => s.story).join("\n"),
+                tags: [],
+            }
+        });
+    }
+
     const stepList = [
         {
             title: "Requirement Input",
@@ -69,7 +79,7 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
         {
             title: "Feature User Story",
             node:
-                <StepNode archiveData={JSON.stringify(FeatureStoryList)}>
+                <StepNode archiveData={convertToKownEntries()}>
                     <FeatureUserStoryList contentInput={FeatureStoryList} handleFinishAction={() => { }} />
                 </StepNode>
 

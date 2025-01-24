@@ -9,7 +9,7 @@ interface StepNodeProps {
     continueable?: boolean;
     onContinue?: () => void;
     handleUpload?: (name: string, content: string) => void;
-    archiveData?: string;
+    archiveData?: KnowEntry | KnowEntry[];
     exportData?: string;
 }
 

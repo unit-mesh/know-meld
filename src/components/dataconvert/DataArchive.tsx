@@ -1,57 +1,55 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { DatabaseOutlined } from '@ant-design/icons';
-import { saveAs } from 'file-saver';
 
 interface DataArchiveProps {
-    data: string;
+    data: KnowEntry | KnowEntry[];
 }
 
 export default function DataArchive({ data }: DataArchiveProps) {
+    const [archiveDone, setArchiveDone] = React.useState(true);
+    const [archiveCount, setArchiveCount] = React.useState(0);
 
-    function dataToKnowEntry(data: string) {
-        return {
-            title: "",
-            tags: [],
-            content: data,
-            timestamp: Date.now(),
+    async function archiveKnowEntry(knowEntry: KnowEntry) {
+        const res = await fetch('/api/knowledge/know-entries', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(knowEntry),
+        });
+
+        if (res.ok) {
+            message.success('Prompt upload success');
+        } else {
+            message.error('Prompt upload error');
         }
+
     }
-
-    function knowEntryToMd(knowEntry: KnowEntry) {
-        const { tags, content, timestamp } = knowEntry;
-
-        // Format tags with '#' prepended
-        const formattedTags = tags.length > 0 ? `${tags.map(tag => `#${tag}`).join(' ')}` : '';
-
-        // Format timestamp into a human-readable date (optional)
-        const formattedDate = timestamp ? `${new Date(timestamp).toLocaleString()}` : '';
-
-        // Generate markdown content
-        const markdown = `
-${formattedTags}
-\`\`\`
-${content}
-\`\`\`
-${formattedDate}
-`;
-
-        return markdown;
-    }
-
-    function onClick() {
-
-        const knowEntry = dataToKnowEntry(data);
-        const mdContent = knowEntryToMd(knowEntry);
-
-        const blob = new Blob([mdContent], { type: 'text/plain;charset=utf-8' });
-        saveAs(blob, `${knowEntry.timestamp}.md`);
+    async function onClick() {
+        setArchiveDone(false);
+        let count = 0;
+        if (data instanceof Array) {
+            for (const knowEntry of data) {
+                await archiveKnowEntry(knowEntry);
+                count++;
+            }
+        }
+        else {
+            await archiveKnowEntry(data);
+            count++;
+        }
+        setArchiveDone(true);
+        setArchiveCount(count);
     }
 
 
     return (
-        <Button onClick={onClick} type='link'>
+        <Button
+            type='link'
+            disabled={!archiveDone}
+            onClick={onClick}
+        >
             <DatabaseOutlined />
+            {archiveCount ? `+ ${archiveCount}` : ''}
         </Button>
     );
 };

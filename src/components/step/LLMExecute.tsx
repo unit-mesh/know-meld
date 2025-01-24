@@ -50,9 +50,17 @@ export default function LLMExecute({ contentInput, handleFinishAction }: StepNod
         setAssembledPrompt(value);
     };
 
+    const convertToKownEntry = (): KnowEntry => {
+        return {
+            title: "llmexecute",
+            content: exceptionOutput,
+            tags: [],
+        };
+    }
+
     return (
         <StepNode
-            archiveData={exceptionOutput}
+            archiveData={convertToKownEntry()}
             exportData={exceptionOutput}
             continueable={!!exceptionOutput && exceptionDone}
             onContinue={handleFinishAction && (() => handleFinishAction(exceptionOutput))}
