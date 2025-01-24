@@ -9,13 +9,14 @@ const { Paragraph } = Typography;
 interface TextViewerProps {
     content: string;
     onContentChange?: (content: string) => void;
+    defaultMarkdownViewMode?: boolean;
 }
 
-const TextViewer: React.FC<TextViewerProps> = ({ content, onContentChange }) => {
+const TextViewer: React.FC<TextViewerProps> = ({ content, onContentChange, defaultMarkdownViewMode }) => {
     const [text, setText] = useState<string>(content);
     const [isEditing, setIsEditing] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(true);
-    const [markdownViewMode, setMarkdownViewMode] = useState<boolean>(true);
+    const [markdownViewMode, setMarkdownViewMode] = useState<boolean>( defaultMarkdownViewMode === undefined ? true : defaultMarkdownViewMode);
 
     useEffect(() => {
         setText(content);

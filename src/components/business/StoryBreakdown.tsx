@@ -3,7 +3,7 @@
 import { WorkNodeProps } from "@/core/WorkNode";
 import WorkNode from "../workflow/WorkNode";
 import ExecutionInputSetup from "../step/ExecutionInputSetup";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import LLMExecute from "../step/LLMExecute";
 import StepProcess from "../step/StepProcess";
 
@@ -15,11 +15,11 @@ import StepProcess from "../step/StepProcess";
 
 export default function StoryBreakdown({ historicalContent, handleFinishAction }: WorkNodeProps) {
     const [currentStep, setCurrentStep] = useState(0);
+    const [generateFeatureUserStoryPrompt, setGenerateFeatureUserStoryPrompt] = useState("");
     const [requirementsContent, setRequirementsContent] = useState("");
-    const [assembledPrompt, setAssembledPrompt] = useState("");
 
-    const assemblePrompt = (value: string): Promise<string> => {
-        return fetch('/api/prompts/_GenerateFeatureUserStory')
+    useEffect(() => {
+        fetch('/api/prompts/_GenerateFeatureUserStory')
             .then(res => {
                 if (!res.ok) {
                     throw new Error('Network response was not ok');
@@ -28,18 +28,16 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
             })
             .then(data => {
                 const content = data.content;
-                return content.replace('${requirementContent}', value || "");
+                setGenerateFeatureUserStoryPrompt(content);
             })
             .catch(error => {
                 console.error('Fetch error:', error);
                 return "";
             });
-    }
+    } , []);
 
     const handleRequirementInputFinishAction = async (value: string): Promise<void> => {
         setRequirementsContent(value);
-        const prompt = await assemblePrompt(value);
-        setAssembledPrompt(prompt);
         setCurrentStep(1);
     }
 
@@ -51,7 +49,7 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
         },
         {
             title: "LLM Execute",
-            node: <LLMExecute contentInput={{ prompt: assembledPrompt }} handleFinishAction={handleFinishAction} />
+            node: <LLMExecute contentInput={{prompt: generateFeatureUserStoryPrompt, executionInput: requirementsContent}} handleFinishAction={handleFinishAction} />
         }
     ]
 

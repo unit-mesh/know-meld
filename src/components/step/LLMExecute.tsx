@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import CodeMirror from "@uiw/react-codemirror";
-import { markdown } from "@codemirror/lang-markdown";
-import { StreamingMarkdownCodeBlock } from "@/utils/markdown/streaming/StreamingMarkdownCodeBlock";
 import { Button } from "antd";
 import StepNode from "@/components/step/StepNode";
 import { StepNodeProps } from "@/core/StepNode";
@@ -14,7 +11,6 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
 
     useEffect(() => {
         const assembledPrompt = `${contentInput.prompt}\n${contentInput.context}\n${contentInput.executionInput}`
-        console.log('assembledPrompt', assembledPrompt)
         setAssembledPrompt(assembledPrompt);
     }, [contentInput]);
 
@@ -43,9 +39,7 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
             if (value) {
                 const text = decoder.decode(value);
                 content = content + text;
-
-                const codeBlock = StreamingMarkdownCodeBlock.parse(content);
-                setExceptionOutput(codeBlock.text);
+                setExceptionOutput(content);
             }
         }
 
@@ -63,19 +57,13 @@ export default function LLMExecute({ contentInput }: StepNodeProps) {
                 <Button
                     disabled={!exceptionDone}
                     onClick={executeTask}
+                    type="primary"
+                    className="mt-4"
                 >
                     {"Excute"}
                 </Button>
             </div>
-            <CodeMirror
-                value={exceptionOutput}
-                editable={false}
-                onChange={(value) => {
-                    setExceptionOutput(value);
-                }}
-                extensions={[markdown()]}
-                className="mb-4"
-            />
+            <TextViewer content={exceptionOutput} defaultMarkdownViewMode={false}/>
         </StepNode>
     );
 }

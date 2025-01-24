@@ -1,6 +1,6 @@
 interface Command {
     name: string;
     prompt: string;
-    content: string;
+    context: string;
     executionInput: string;
 };
