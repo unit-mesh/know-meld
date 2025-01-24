@@ -1,38 +1,33 @@
 import { Steps } from "antd";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 
-interface StepItem {
+interface Step {
     title: string,
-    node?: ReactNode,
+    node: ReactNode,
 }
 
 interface Props {
     currentStep: number;
-    stepList: StepItem[];
-    finished: boolean;
+    stepList: Step[];
 }
 
 export default function StepProcess({ currentStep, stepList }: Props) {
 
-    function convertToPending(currentStep: number, stepList: string[]) {
-        return currentStep < stepList.length ? stepList[currentStep] : undefined;
-    }
-
-    function convertToItems(stepList: StepItem[]) {
-        return stepList.map((step, index) => {
+    function convertToItems(currentStage: number) {
+        return stepList.map((stepItem, index) => {
             return {
-                title: step.title,
-                description: step.node
+                title: stepItem.title,
+                description: index <= currentStage ? stepItem.node : undefined
             };
-        }
-        );
+        })
     }
 
     return (
         <Steps
             direction="vertical"
+            progressDot
             current={currentStep}
-            items={convertToItems(stepList)}
+            items={convertToItems(currentStep)}
         />
     );
 }

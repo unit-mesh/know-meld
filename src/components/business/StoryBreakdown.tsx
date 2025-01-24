@@ -6,6 +6,7 @@ import ExecutionInputSetup from "../step/ExecutionInputSetup";
 import { useState } from "react";
 import LLMExecute from "../step/LLMExecute";
 import { Steps } from "antd";
+import StepProcess from "../step/StepProcess";
 
 // steps:
 // - (user) 'input' {requirement-content} by doc-or-text
@@ -41,38 +42,21 @@ export default function StoryBreakdown({ historicalContent, handleFinishAction }
         return filledContent;
     }
 
+    const stepList = [
+        {
+            title: "Requirement Input",
+            node: <ExecutionInputSetup historicalContent={requirementsContent} handleFinishAction={handleRequirementInputFinishAction} />
 
-    function convertToStepItems(currentStage: number) {
-        const stepItems = [
-            {
-                title: "Requirement Input",
-                node: <ExecutionInputSetup historicalContent={requirementsContent} handleFinishAction={handleRequirementInputFinishAction} />
-
-            },
-            {
-                title: "LLM Execute",
-                node: <div>LLM Execute</div>
-            }
-        ]
-
-        return stepItems.map((stepItem, index) => {
-            return {
-                title: stepItem.title,
-                description: index <= currentStage ? stepItem.node : undefined
-            };
+        },
+        {
+            title: "LLM Execute",
+            node: <div>LLM Execute</div>
         }
-        )
-    }
-
+    ]
 
     return (
         <WorkNode>
-            <Steps
-                direction="vertical"
-                progressDot
-                current={currentStep}
-                items={convertToStepItems(currentStep)}
-            />
+            <StepProcess currentStep={currentStep} stepList={stepList} />
         </WorkNode>
     );
 }
