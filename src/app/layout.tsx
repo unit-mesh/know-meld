@@ -87,16 +87,10 @@ const menuItems: MenuItem[] = [
     icon: <DatabaseOutlined />,
     children: [
       {
-        key: "item-2-sub-1",
-        label: "Item 2 Sub 1",
-        icon: <DatabaseOutlined />,
-        routeTo: "/",
-      },
-      {
-        key: "item-2-sub-2",
-        label: "Item 2 Sub 2",
-        icon: <DatabaseOutlined />,
-        routeTo: "/",
+        key: "/knowledge/knowentry-list",
+        label: "KnowEntry List",
+        icon: <ProfileOutlined />,
+        routeTo: "/knowledge/knowentry-list",
       },
     ],
   },

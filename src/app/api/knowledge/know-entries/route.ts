@@ -1,4 +1,4 @@
-import { readDb, writeDb } from '@/db/localmddb';
+import { readDb, writeDb, deleteDb } from '@/db/localmddb';
 import { NextResponse } from 'next/server';
 
 const model = "knowentry";
@@ -9,10 +9,10 @@ function knowEntryToMd(entry: KnowEntry): { id: string, content: string } {
 
 function mdToKnowEntry(md: { id: string, content: string }): KnowEntry {
     return {
-        title: md.id.split('.')[0],
+        title: md.id.split('.').slice(0, -1).join('.'),
+        timestamp: parseInt(md.id.split('.').slice(-1)[0]),
         content: md.content,
         tags: [],
-        timestamp: parseInt(md.id.split('.')[1])
     }
 }
 
@@ -27,6 +27,16 @@ export async function GET() {
     const entries = await readDb(model);
     const knowEntries = entries.map(mdToKnowEntry);
     return NextResponse.json(knowEntries);
+}
+
+// get query params
+export async function DELETE(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const title = searchParams.get('title') || '';
+    const timestamp = searchParams.get('timestamp') || '';
+    const id = title + '.' + timestamp;
+    await deleteDb(model, id);
+    return new NextResponse(null, { status: 204 });
 }
 
 

@@ -35,3 +35,11 @@ export async function writeDb(model: string, entries: { id: string, content: str
   }
 }
 
+export async function deleteDb(model: string, id: string): Promise<void> {
+  const filePath = getFilePath(model, id);
+  console.log('Deleting file:', filePath);
+  await fs.promises.unlink
+    .call(fs.promises, filePath)
+    .catch(() => { });
+}
+
