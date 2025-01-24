@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button, Input, message } from 'antd';
-import DocUpload from '@/components/converter/DocUpload';
+import DocUpload from '@/components/dataconvert/DocUpload';
 import MarkdownViewer from '@/components/dataview/MarkdownViewer';
 
 export default function Page() {
