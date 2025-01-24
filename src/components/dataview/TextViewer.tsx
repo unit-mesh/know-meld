@@ -1,42 +1,41 @@
-import React, { use, useEffect, useState } from 'react';
-import { Button, Input, message, Space, Typography } from 'antd';
-import { CopyOutlined, EditOutlined, SaveOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Button, Input, message, Space, Typography, Switch } from 'antd';
+import { CopyOutlined, EditOutlined, SaveOutlined, UpOutlined, DownOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 
 const { TextArea } = Input;
 const { Paragraph } = Typography;
 
-interface MarkdownViewerProps {
+interface TextViewerProps {
     content: string;
     onContentChange?: (content: string) => void;
 }
 
-const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ content, onContentChange }) => {
-    const [markdown, setMarkdown] = useState<string>(content);
+const TextViewer: React.FC<TextViewerProps> = ({ content, onContentChange }) => {
+    const [text, setText] = useState<string>(content);
     const [isEditing, setIsEditing] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(true);
+    const [markdownViewMode, setMarkdownViewMode] = useState<boolean>(true);
 
     useEffect(() => {
-        setMarkdown(content);
+        setText(content);
     }, [content]);
 
-    // Copy content to clipboard
     const handleCopy = async () => {
         try {
-            await navigator.clipboard.writeText(markdown);
+            await navigator.clipboard.writeText(text);
             message.success('Markdown copied successfully!');
         } catch (error) {
             message.error('Copy failed, please copy manually');
         }
     };
 
-    // Save edited content
     const handleSave = () => {
         setIsEditing(false);
         setIsCollapsed(false);
         message.success('Markdown content saved');
         if (onContentChange) {
-            onContentChange(markdown);
+            onContentChange(text);
         }
     };
 
@@ -45,8 +44,8 @@ const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ content, onContentChang
         setIsCollapsed(false);
     };
 
-    const handleChange = (e: any) => {
-        setMarkdown(e.target.value);
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setText(e.target.value);
         if (onContentChange) {
             onContentChange(e.target.value);
         }
@@ -54,7 +53,6 @@ const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ content, onContentChang
 
     return (
         <div style={{ position: 'relative', padding: 16, border: '1px solid #ddd', borderRadius: 8, overflow: 'hidden' }}>
-            {/* Top right buttons */}
             <div style={{ position: 'absolute', top: 8, right: 8 }}>
                 <Space>
                     {isEditing ? (
@@ -63,6 +61,11 @@ const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ content, onContentChang
                         <Button size="small" icon={<EditOutlined />} onClick={handleEdit} />
                     )}
                     <Button size="small" icon={<CopyOutlined />} onClick={handleCopy} />
+                    <Button
+                        size="small"
+                        icon={markdownViewMode ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                        onClick={() => setMarkdownViewMode(!markdownViewMode)}
+                    />
                     <Button
                         size="small"
                         icon={isCollapsed ? <DownOutlined /> : <UpOutlined />}
@@ -74,20 +77,27 @@ const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ content, onContentChang
             {isEditing ? (
                 <TextArea
                     autoSize={{ minRows: 6 }}
-                    value={markdown}
+                    value={text}
                     onChange={handleChange}
                     style={{ marginTop: 24 }}
                 />
+            ) : markdownViewMode ? (
+                <Paragraph
+                    ellipsis={isCollapsed ? { rows: 2, expandable: false } : false}
+                    style={{ marginTop: 16 }}
+                >
+                    <ReactMarkdown>{text}</ReactMarkdown>
+                </Paragraph>
             ) : (
                 <Paragraph
                     ellipsis={isCollapsed ? { rows: 2, expandable: false } : false}
-                    style={{ marginTop: 16, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                    style={{ marginTop: 16, whiteSpace: 'pre-wrap' }}
                 >
-                    <ReactMarkdown>{markdown}</ReactMarkdown>
+                    {text}
                 </Paragraph>
             )}
         </div>
     );
 };
 
-export default MarkdownViewer;
+export default TextViewer;

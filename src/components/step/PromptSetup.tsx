@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Select } from "antd";
 import StepNode from "@/components/step/StepNode";
 import { StepNodeProps } from "@/core/StepNode";
-import MarkdownViewer from "../dataview/MarkdownViewer";
+import TextViewer from "../dataview/TextViewer";
 
 export default function PromptSetup({ handleFinishAction }: StepNodeProps) {
     const [prompt, setPrompt] = useState<Prompt>();
@@ -45,7 +45,7 @@ export default function PromptSetup({ handleFinishAction }: StepNodeProps) {
                 options={convertToPromptOptions(prompts)}
             />
             <div className="mt-4">
-                <MarkdownViewer content={prompt ? prompt.content : ""} onContentChange={handleEdit} />
+                <TextViewer content={prompt ? prompt.content : ""} onContentChange={handleEdit} />
             </div>
         </StepNode>
     );

@@ -1,7 +1,7 @@
 import { Card, Tag, Button } from "antd";
 import DataExport from "../dataconvert/DataExport";
 import { DeleteOutlined } from '@ant-design/icons';
-import MarkdownViewer from "../dataview/MarkdownViewer";
+import TextViewer from "../dataview/TextViewer";
 
 interface Props {
     prompt: Prompt;
@@ -28,12 +28,12 @@ export default function PromptItem({ prompt, onDelete }: Props) {
                 extra={
                     <>
                         <DataExport data={parseToMarkdownContent(prompt.tags, prompt.content)} />
-                        <Button type="link" onClick={() => onDelete(prompt.name)}><DeleteOutlined /></Button> 
+                        <Button type="link" onClick={() => onDelete(prompt.name)}><DeleteOutlined /></Button>
                     </>
                 }
             >
                 <p>
-                    <MarkdownViewer content={prompt.content} />                    
+                    <TextViewer content={prompt.content} />
                 </p>
             </Card>
         </div>

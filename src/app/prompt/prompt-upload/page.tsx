@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button, Input, message } from 'antd';
 import DocUpload from '@/components/dataconvert/DocUpload';
-import MarkdownViewer from '@/components/dataview/MarkdownViewer';
+import TextViewer from '@/components/dataview/TextViewer';
 
 export default function Page() {
     const [name, setName] = useState<string>('');
@@ -68,7 +68,7 @@ export default function Page() {
             </div>
 
             <div className="w-full mt-8 bg-white p-4 rounded">
-                <MarkdownViewer content={content} onContentChange={handleEdit} />
+                <TextViewer content={content} onContentChange={handleEdit} />
             </div>
 
             <Button

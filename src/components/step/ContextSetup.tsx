@@ -2,7 +2,7 @@
 import { useState } from "react";
 import StepNode from "@/components/step/StepNode";
 import { StepNodeProps } from "@/core/StepNode";
-import MarkdownViewer from "../dataview/MarkdownViewer";
+import TextViewer from "../dataview/TextViewer";
 
 export default function ContextSetup({ historicalContent, handleFinishAction }: StepNodeProps) {
     const [content, setContent] = useState(historicalContent || "");
@@ -13,7 +13,7 @@ export default function ContextSetup({ historicalContent, handleFinishAction }: 
             onContinue={() => handleFinishAction(content)}
             handleUpload={(name, content) => setContent(content)}
         >
-            <MarkdownViewer content={content} onContentChange={(newContent) => setContent(newContent)} />
+            <TextViewer content={content} onContentChange={(newContent) => setContent(newContent)} />
         </StepNode>
     );
 }
