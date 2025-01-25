@@ -16,7 +16,7 @@ const TextViewer: React.FC<TextViewerProps> = ({ content, onContentChange, defau
     const [text, setText] = useState<string>(content);
     const [isEditing, setIsEditing] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(true);
-    const [markdownViewMode, setMarkdownViewMode] = useState<boolean>( defaultMarkdownViewMode === undefined ? true : defaultMarkdownViewMode);
+    const [markdownViewMode, setMarkdownViewMode] = useState<boolean>(defaultMarkdownViewMode === undefined ? true : defaultMarkdownViewMode);
 
     useEffect(() => {
         setText(content);
@@ -56,11 +56,15 @@ const TextViewer: React.FC<TextViewerProps> = ({ content, onContentChange, defau
         <div style={{ position: 'relative', padding: 16, border: '1px solid #ddd', borderRadius: 8, overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: 8, right: 8 }}>
                 <Space>
-                    {isEditing ? (
-                        <Button size="small" icon={<SaveOutlined />} onClick={handleSave} />
-                    ) : (
-                        <Button size="small" icon={<EditOutlined />} onClick={handleEdit} />
-                    )}
+                    {
+                        onContentChange &&
+                        (isEditing ? (
+                            <Button size="small" icon={<SaveOutlined />} onClick={handleSave} />
+                        ) : (
+                            <Button size="small" icon={<EditOutlined />} onClick={handleEdit} />
+                        ))
+                    }
+
                     <Button size="small" icon={<CopyOutlined />} onClick={handleCopy} />
                     <Button
                         size="small"

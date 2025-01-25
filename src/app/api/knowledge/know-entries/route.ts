@@ -1,4 +1,4 @@
-import { readDb, writeDb, deleteDb } from '@/db/localmddb';
+import { readDb, writeDb, deleteDbById } from '@/db/localmddb';
 import { NextResponse } from 'next/server';
 
 const model = "knowentry";
@@ -35,7 +35,7 @@ export async function DELETE(request: Request) {
     const title = searchParams.get('title') || '';
     const timestamp = searchParams.get('timestamp') || '';
     const id = title + '.' + timestamp;
-    await deleteDb(model, id);
+    await deleteDbById(model, id);
     return new NextResponse(null, { status: 204 });
 }
 

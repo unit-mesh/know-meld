@@ -1,18 +1,11 @@
 import { NextResponse } from "next/server";
-import fs from 'fs';
-import path from 'path';
 import { parseMarkdown } from "@/utils/markdownParser";
-
-const EXAMPLE_PATH = path.join(process.cwd(), 'data/prompts/_example.md');
+import { readDbById } from "@/db/localmddb";
 
 export async function GET() {
-    const filePath = EXAMPLE_PATH;
+    const prompt = await readDbById('prompt', '_example');
 
-    if (!fs.existsSync(filePath)) {
-        return new NextResponse(null, { status: 404 });
-    }
-
-    const parsed = parseMarkdown(filePath);
+    const parsed = parseMarkdown(prompt.content);
     return NextResponse.json(parsed);
 
 }

@@ -1,16 +1,9 @@
-import fs from 'fs';
-import path from 'path';
-
-export function parseMarkdown(filePath: string) {
-    const content = fs.readFileSync(filePath, 'utf-8');
-    const fileName = path.basename(filePath, '.md');
-    const name = fileName.replace('.md', '');
+export function parseMarkdown(content: string) {
     const tags = extractTags(content);
     const parsedContent = content.replace(/^#(.+)\n/, '');
     const placeholders = [...content.matchAll(/\${(.*?)}/g)].map(match => match[1]);
 
     return {
-        name,
         tags,
         content: parsedContent,
         placeholders,

@@ -1,27 +1,19 @@
 import { NextResponse } from "next/server";
-import fs from 'fs';
-import path from 'path';
 import { parseMarkdown } from "@/utils/markdownParser";
+import { readDbById, deleteDbById } from '@/db/localmddb';
 
-const PROMPT_DIR = path.join(process.cwd(), 'data/prompts');
+const model = "prompt";
 
 export async function GET(request: Request, { params }: { params: { name: string } }) {
-  const filePath = path.join(PROMPT_DIR, `${params.name}.md`);
-  if (!fs.existsSync(filePath)) {
-    return new NextResponse(null, { status: 404 });
-  }
+  const prompt = await readDbById(model, params.name);
 
-  const parsed = parseMarkdown(filePath);
+  const parsed = parseMarkdown(prompt.content);
   return NextResponse.json(parsed);
 
 }
 
 export async function DELETE(request: Request, { name }: { name: string }) {
-  const filePath = path.join(PROMPT_DIR, `${name}.md`);
-
-  if (fs.existsSync(filePath)) {
-    fs.unlinkSync(filePath);
-  }
+  deleteDbById(model, name);
 
   return new NextResponse(null, { status: 204 });
 }

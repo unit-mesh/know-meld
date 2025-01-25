@@ -1,27 +1,22 @@
-import fs from 'fs';
-import path from 'path';
 import { parseMarkdown } from '@/utils/markdownParser';
 import { NextResponse } from 'next/server';
+import { readDb, writeDb } from '@/db/localmddb';
 
-const PROMPT_DIR = path.join(process.cwd(), 'data/prompts');
-
+const model = "prompt";
 export async function POST(request: Request) {
     const { name, content }: { name: string; content: string; } = await request.json();
-    const filePath = path.join(PROMPT_DIR, `${name}.md`);
-    fs.writeFileSync(filePath, content, 'utf-8');
+    writeDb(model, [{ id: name, content }]);
     return new NextResponse(null, { status: 201 });
 }
 
 export async function GET() {
-    const files = fs.readdirSync(PROMPT_DIR);
-    const prompts: Prompt[] = files
-        .map((file) => {
-            const filePath = path.join(PROMPT_DIR, file);
-            const parsed = parseMarkdown(filePath);
-            return {
-                ...parsed
-            };
-        })
-        .filter(prompt => !prompt.name.startsWith('_'));
+    const data = await readDb(model);
+    const prompts = data.map((prompt: { id: string, content: string }) => {
+        const parsed = parseMarkdown(prompt.content);
+        return {
+            ...parsed,
+            name: prompt.id
+        };
+    });
     return NextResponse.json(prompts);
 }

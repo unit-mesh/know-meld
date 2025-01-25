@@ -28,6 +28,14 @@ export async function readDb(model: string): Promise<{ id: string, content: stri
   return entries;
 }
 
+export async function readDbById(model: string, id: string): Promise<{ id: string, content: string }> {
+  const filePath = getFilePath(model, id);
+  const content = await fs.promises
+    .readFile(filePath, 'utf-8')
+    .catch(() => '');
+  return { id, content };
+}
+
 export async function writeDb(model: string, entries: { id: string, content: string }[]): Promise<void> {
   for (const entry of entries) {
     const filePath = getFilePath(model, entry.id);
@@ -35,7 +43,7 @@ export async function writeDb(model: string, entries: { id: string, content: str
   }
 }
 
-export async function deleteDb(model: string, id: string): Promise<void> {
+export async function deleteDbById(model: string, id: string): Promise<void> {
   const filePath = getFilePath(model, id);
   console.log('Deleting file:', filePath);
   await fs.promises.unlink

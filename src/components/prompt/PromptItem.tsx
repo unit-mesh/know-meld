@@ -1,6 +1,6 @@
 import { Card, Tag, Button } from "antd";
 import DataExport from "../dataconvert/DataExport";
-import { DeleteOutlined } from '@ant-design/icons';
+import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
 import TextViewer from "../dataview/TextViewer";
 
 interface Props {
@@ -14,12 +14,16 @@ export default function PromptItem({ prompt, onDelete }: Props) {
         return `${formattedTags}${content}`;
     }
 
+    function checkIsSystemPrompt(prompt: Prompt) {
+        return prompt.name.startsWith('_');
+    }
+
     return (
         <div className="mx-auto p-4">
             <Card
                 title={
                     <>
-                        {prompt.name}
+                        {prompt.name + (checkIsSystemPrompt(prompt) ? <AppstoreAddOutlined /> : '')}
                         {prompt.tags.map((tag) => (
                             <Tag key={tag} style={{ marginLeft: 8 }}>{tag}</Tag>
                         ))}
@@ -28,7 +32,12 @@ export default function PromptItem({ prompt, onDelete }: Props) {
                 extra={
                     <>
                         <DataExport data={parseToMarkdownContent(prompt.tags, prompt.content)} />
-                        <Button type="link" onClick={() => onDelete(prompt.name)}><DeleteOutlined /></Button>
+                        <Button
+                            type="link"
+                            disabled={checkIsSystemPrompt(prompt)}
+                            onClick={() => onDelete(prompt.name)}>
+                            <DeleteOutlined />
+                        </Button>
                     </>
                 }
             >
