@@ -92,6 +92,12 @@ const menuItems: MenuItem[] = [
         icon: <ProfileOutlined />,
         routeTo: "/knowledge/knowentry-list",
       },
+      {
+        key: "/knowledge/knowentry-upload",
+        label: "KnowEntry Upload",
+        icon: <UploadOutlined />,
+        routeTo: "/knowledge/knowentry-upload",
+      },
     ],
   },
 ];
