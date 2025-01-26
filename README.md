@@ -17,3 +17,31 @@
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Features
+- **WorkSpace**
+    - [ ]**Requirement Warmup**
+    - [ ]**Requirement Analysis**
+    - [ ]**Requirement Usecase**
+    - [ ]**Changepoint Identify**
+    - [ ]**Architecture Design**
+    - [ ]**Domain Design**
+    - [ ]**API Design**
+    - [ ]**Context Mapping**
+    - [ ]**Devel Cost Analysis**
+- **Knowledge**
+    - [ ]**Business Glossary**
+    - [ ]**Test Strategy**
+    - [ ]**Product Feature**
+    - [ ]**Architecture Guideline**
+- **Setting**
+    - [ ]**Product Management**
+    - [ ]**Prompt Management**
+    - [ ]**Model Management**
+    - [ ]**Data Import/Export**
+- **AIPowered**
+    - [ ]**AI Chat**
+    - [ ]**AI Analysis**
+    - [ ]**AI Summarize**
+    - [ ]**AI Generation**
+
